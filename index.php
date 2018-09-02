@@ -304,7 +304,7 @@ switch (ENVIRONMENT)
 	}
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
-
+	define('ROOTPATH',__DIR__); //定义文件夹根目录
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
