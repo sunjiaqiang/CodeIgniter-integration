@@ -35,4 +35,18 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $row = $query->row_array();
             return $row['nums'];
         }
+
+        /**
+         * 为scroll模块提供
+         * @param int $cur_page
+         * @param int $per_page
+         * @return mixed
+         */
+        public function get_list3($cur_page = 1,$per_page = 10){
+            $sql = "select * from article_news order by inputtime desc";
+            $sql .= " limit ?,?";
+            $query = $this->db->query($sql,array(($cur_page-1)*$per_page,$per_page));
+            $result = $query->result_array();
+            return $result;
+        }
     }
