@@ -51,6 +51,25 @@ if( ! function_exists('unlock_url')){
 
 }
 
+if( ! function_exists('make_url')){
+    //url参数组装
+    function make_url($condition,$key='',$val=''){
+        if(isset($condition[$key])){
+            $condition[$key] = $val;
+        }
+        if(isset($condition[$key]) && $val==-1){
+            unset($condition[$key]);
+        }
+        $link = '?';
+        $suffix = '&';
+        $arr='';
+        foreach($condition as $key=>$val){
+            $arr.= $key."=".$val.$suffix;
+        }
+        return rtrim($link.$arr,$suffix);
+    }
+}
+
 if (!function_exists('p')) {
     /**
      * [p 传递数据以易于阅读的样式格式化后输出]
