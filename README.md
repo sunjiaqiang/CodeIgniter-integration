@@ -7,8 +7,10 @@
 此项目不是一套完整的项目，这是整合了各种功能，方便在开发新项目的时候拿来使用。
 
 #相关整合功能
+
 将本项目clone下来，并配置好域名
 假设你的域名为xxx.com
+
 	1.plupload多图上传 访问地址http://xxx.com/plupload/index/index
 
 	2.webupload多图上传 访问地址http://xxx.com/webupload/index/index
