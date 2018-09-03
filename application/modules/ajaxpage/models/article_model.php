@@ -85,4 +85,28 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $row = $query->row_array();
             return $row;
         }
+
+        /**
+         * 提供analysis模块使用
+         * @param string $year 年(格式：2018)
+         * @return mixed
+         */
+        public function get_list2($year=''){
+            $sql = "
+                SELECT c.`name` cat_name,c.id cat_id,FROM_UNIXTIME(i.`inputtime`,'%Y-%m') add_time,COUNT(i.id) nums 
+                FROM article_category c
+                LEFT JOIN article_news i ON i.catid = c.`id`
+                WHERE i.`inputtime` IS NOT NULL AND FROM_UNIXTIME(i.`inputtime`,'%Y')=?
+                GROUP BY c.id,add_time
+            ";
+            $query = $this->db->query($sql,[$year]);
+            $result = $query->result_array();
+            return $result;
+        }
+        public function get_cate(){
+            $sql = "SELECT * FROM article_category WHERE mid=? ORDER BY id DESC";
+            $query = $this->db->query($sql,['news']);
+            $result = $query->result_array();
+            return array_column($result,'name','id');
+        }
     }
