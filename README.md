@@ -19,7 +19,7 @@
 	
 	4.tcpdf生成pdf 访问地址http://xxx.com/pdf/index/index
 	
-	5.wangeditor编辑器整合 访问地址http://xxx.come/ditor/index/index
+	5.wangeditor编辑器整合 访问地址http://xxx.come/editor/index/index
 	
 	6.ajax无刷新分页 访问地址http://xxx.com/ajaxpage/index/index
 	
