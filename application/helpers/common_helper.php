@@ -70,6 +70,15 @@ if( ! function_exists('make_url')){
     }
 }
 
+if ( ! function_exists('create_folders')){
+    function create_folders($path){
+        if ( ! is_dir($path)){
+            create_folders(dirname($path));
+        }
+        return is_dir($path) OR mkdir($path,0777);
+    }
+}
+
 if (!function_exists('p')) {
     /**
      * [p 传递数据以易于阅读的样式格式化后输出]

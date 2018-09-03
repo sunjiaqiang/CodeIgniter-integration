@@ -49,4 +49,40 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $result = $query->result_array();
             return $result;
         }
+
+        /**
+         * 用于静态生成模块
+         * @param int $cur_page
+         * @param int $page_size
+         * @return array
+         */
+        public function get_all($cur_page=1,$page_size=300){
+            $sql = "SELECT * FROM article_news ORDER BY id LIMIT ?,?";
+            $query = $this->db->query($sql,array(($cur_page-1)*$page_size,$page_size));
+            $result = $query->result_array();
+            $arr = array_column($result,'id','id');
+            return $arr;
+        }
+
+        /**
+         * 获取所有文章栏目，用于静态生成
+         * @return array
+         */
+        public function get_all_cate(){
+            $sql = "SELECT * FROM article_category ORDER BY id";
+            $query = $this->db->query($sql);
+            $result = $query->result_array();
+            $data = array_column($result,null,'id');
+            return $data;
+        }
+        /**
+         * 获取单条数据
+         * @param int $id
+         */
+        public function get_row_article($id=0){
+            $sql = "SELECT * FROM article_news WHERE id=?";
+            $query = $this->db->query($sql,array($id));
+            $row = $query->row_array();
+            return $row;
+        }
     }
