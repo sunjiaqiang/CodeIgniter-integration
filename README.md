@@ -21,7 +21,7 @@
 	
 	4.tcpdf生成pdf 访问地址http://xxx.com/pdf/index/index
 	
-	5.整合PHPmailer 访问地址http://xxx.com/email/index/index(需要配置你自己的163邮箱和邮箱独立密码，并配置好邮箱相关配置)
+	5.整合PHPmailer发送邮件 访问地址http://xxx.com/email/index/index(需要配置你自己的163邮箱和邮箱独立密码，并配置好邮箱相关配置)
 	
 	6.wangeditor编辑器整合 访问地址http://xxx.come/editor/index/index
 	
