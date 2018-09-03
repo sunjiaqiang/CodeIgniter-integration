@@ -161,7 +161,7 @@
      function delPic(pic,fileid){
         $.ajax({
           type:"POST",
-          url:"<?php echo site_url('role/del_img');?>",
+          url:"<?php echo site_url('plupload/index/del_img');?>",
           async:true,
           dataType:"json",
           data:{pic:pic},
