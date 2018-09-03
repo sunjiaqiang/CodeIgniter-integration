@@ -19,7 +19,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $sql.= " order by $orderby";
             $sql.= " limit ?,?";
             $query = $this->db->query($sql,array(($cur_page-1)*$per_page,$per_page));
-            //echo $this->db->last_query(),'<br>';
+//            echo $this->db->last_query(),'<br>';
             $result = $query->result_array();
             return $result;
         }

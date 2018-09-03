@@ -16,7 +16,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         public function index(){
             $cur_page = $this->input->post('cur_page');
             if( ! $cur_page){
-                $cur_page = $this->uri->segment('3') ? $this->uri->segment(3) : 1;
+                $cur_page = $this->uri->segment(4) ? $this->uri->segment(4) : 1;
             }
             $count = $this->Article_model->get_count();
             $page_config['mode'] = 'ajax';
