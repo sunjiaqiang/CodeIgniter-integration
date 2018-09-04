@@ -34,4 +34,17 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $this->myfile->maxSize = $allow_max_size;
             $this->myfile->upload();
         }
+        /**
+         * 删除图片
+         * @param $path 图片路径
+         */
+        public function del_img(){
+            $path = $this->input->post('pic');
+            file_exists($path) and unlink($path);
+            $status = array(
+                'status'=>1,
+                'msg'=>"删除成功"
+            );
+            echo json_encode($status);
+        }
     }
