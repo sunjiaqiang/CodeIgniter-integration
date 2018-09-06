@@ -11,6 +11,11 @@ class ComposerStaticInit8807201229e47dc97bcfb654749d976a
         array (
             'Symfony\\Component\\OptionsResolver\\' => 34,
         ),
+        'P' => 
+        array (
+            'Psr\\SimpleCache\\' => 16,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
+        ),
         'E' => 
         array (
             'Endroid\\QrCode\\' => 15,
@@ -21,6 +26,14 @@ class ComposerStaticInit8807201229e47dc97bcfb654749d976a
         'Symfony\\Component\\OptionsResolver\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
+        ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'PhpOffice\\PhpSpreadsheet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
         'Endroid\\QrCode\\' => 
         array (

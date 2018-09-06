@@ -17,11 +17,10 @@
 
         /**
          * 上传图片方法
-         * @param null $folder
-         * @param int $max
-         * @param bool $limit_img
+         * @param $return_type 1返回json格式，2返回数组格式
+         * @param $resutn_name 返回的文件名
          */
-        public function upload(){
+        public function upload($return_type = 1,$resut_name='pic'){
             $this->createFolder($this->savePath);//创建上传文件夹
             $file = $_FILES['file'];
             $file['extension'] = $this->getExt($file['name']);
@@ -42,9 +41,15 @@
             }
             $arr['error'] = 0;
             $arr['status'] = 1;
-            $arr['pic'] = $file['save_path'].$file['save_name'];
+            $arr[$resut_name] = $file['save_path'].$file['save_name'];
             $arr['msg'] = "上传成功";
-            echo json_encode($arr);
+            switch ($return_type){
+                case 1:
+                    echo json_encode($arr);
+                case 2:
+                    return $arr;
+            }
+
         }
 
         /**

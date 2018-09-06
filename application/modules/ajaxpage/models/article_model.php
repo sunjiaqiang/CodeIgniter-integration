@@ -103,10 +103,25 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $result = $query->result_array();
             return $result;
         }
+
+        /**
+         * 获取所有分类
+         * @return array
+         */
         public function get_cate(){
             $sql = "SELECT * FROM article_category WHERE mid=? ORDER BY id DESC";
             $query = $this->db->query($sql,['news']);
             $result = $query->result_array();
             return array_column($result,'name','id');
+        }
+
+        /**
+         * 获取游客信息，供excel使用
+         */
+        public function get_tourist(){
+            $sql = "SELECT * FROM order_tourist ORDER BY id";
+            $query = $this->db->query($sql);
+            $result = $query->result_array();
+            return $result;
         }
     }

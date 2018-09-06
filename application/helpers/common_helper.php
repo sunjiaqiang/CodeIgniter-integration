@@ -151,6 +151,36 @@ if( ! function_exists('send_email')){
     }
 }
 
+/**
+ * 另一种方法，推荐使用
+ * 下载文件
+ * @param $filename 文件地址
+ * @param $out_name 文件别名
+ */
+if ( ! function_exists('download')){
+    function download($filename,$out_name){
+        $size = filesize($filename);
+        $file = fopen($filename, 'r');
+
+        header("content-type:application/octet-stream");
+        header("accept-ranges:bytes" );
+        header("Content-Length:" . $size);
+        header("content-disposition:attachment;filename=" . $out_name);
+
+        //echo fread($file, $size);
+
+        $buffer=1024;
+        $buffer_count=0;
+        while(!feof($file)&&$size-$buffer_count>0){
+            $data=fread($file,$buffer);
+            $buffer_count+=$buffer;
+            echo $data;
+        }
+
+        fclose($file);
+    }
+}
+
 if (!function_exists('p')) {
     /**
      * [p 传递数据以易于阅读的样式格式化后输出]
