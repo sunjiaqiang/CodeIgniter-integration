@@ -121,7 +121,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 'borders' => [
                     'outline' => [
                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
-                        'color' => ['argb' => 'FFFF0000'],
+                        'color' => ['argb' => '333333'],
                     ],
                 ],
             ];
@@ -134,10 +134,12 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                     ],
                 ],
                 'alignment' => [
-                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
                 ],
             ];
             $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+            $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+            $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(60);
             $worksheet->getStyle('A1:H1')->applyFromArray($styleArray);
             $worksheet->getStyle('A2:H'.$index)->applyFromArray($styleArrayBody);
 
