@@ -117,11 +117,23 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
         /**
          * 获取游客信息，供excel使用
+         * @param $page_size 每页条数
+         * @param $cur_page 当前页
          */
-        public function get_tourist(){
-            $sql = "SELECT * FROM order_tourist ORDER BY id";
-            $query = $this->db->query($sql);
+        public function get_tourist($page_size=1000,$cur_page=1){
+            $sql = "SELECT * FROM order_tourist ORDER BY id LIMIT ?,?";
+            $query = $this->db->query($sql,[($cur_page-1)*$page_size,$page_size]);
             $result = $query->result_array();
             return $result;
+        }
+
+        /**
+         * 获取游客信息总条数
+         */
+        public function get_tourist_count(){
+            $sql = "SELECT COUNT(1) nums FROM order_tourist";
+            $query = $this->db->query($sql);
+            $row = $query->row_array();
+            return $row['nums'];
         }
     }

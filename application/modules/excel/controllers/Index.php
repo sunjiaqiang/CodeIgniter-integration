@@ -72,89 +72,114 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             echo json_encode($result);
         }
 
+        /**
+         * 导出数据到excel
+         * @throws \PhpOffice\PhpSpreadsheet\Exception
+         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+         */
         public function export_xls(){
-            $result = $this->Article_model->get_tourist();
 
-            $spreadsheet = new Spreadsheet();
-            $worksheet = $spreadsheet->getActiveSheet();
-            //设置工作表标题名称
-            $spreadsheet->getProperties()
-                ->setCreator("Maarten Balliauw")
-                ->setLastModifiedBy("Maarten Balliauw")
-                ->setTitle("游客表")
-                ->setSubject("Office 2007 XLSX Test Document")
-                ->setDescription(
-                    "Test document for Office 2007 XLSX, generated using PHP classes."
-                )
-                ->setKeywords("office 2007 openxml php")
-                ->setCategory("Test result file");
+            $cur_page = ($this->input->get_post('page')) ? $this->input->get_post('page') : 1;
+            $page_size = 1000;//每页导出一千条数据
 
-            $spreadsheet->setActiveSheetIndex(0)
-                ->setCellValue('A1', '姓名')
-                ->setCellValue('B1', '性别')
-                ->setCellValue('C1', '类型')
-                ->setCellValue('D1', '手机号')
-                ->setCellValue('E1', '证件类型')
-                ->setCellValue('F1', '证件号')
-                ->setCellValue('G1', '单房差')
-                ->setCellValue('H1', '备注');
+            $export = $this->input->get_post('export');
+            if($export == 1){
+                $result = $this->Article_model->get_tourist($page_size,$cur_page);
+                $spreadsheet = new Spreadsheet();
+                $worksheet = $spreadsheet->getActiveSheet();
+                //设置工作表标题名称
+                $spreadsheet->getProperties()
+                    ->setCreator("Maarten Balliauw")
+                    ->setLastModifiedBy("Maarten Balliauw")
+                    ->setTitle("游客表")
+                    ->setSubject("Office 2007 XLSX Test Document")
+                    ->setDescription(
+                        "Test document for Office 2007 XLSX, generated using PHP classes."
+                    )
+                    ->setKeywords("office 2007 openxml php")
+                    ->setCategory("Test result file");
 
-            if (count($result) > 0){
-                foreach ($result as $key=>$val){
-                    $index= $key+2;
-                    $spreadsheet->setActiveSheetIndex(0)
-                        ->setCellValue('A'.$index,$val['name'])
-                        ->setCellValue('B'.$index,$this->get_sex($val['gender']))
-                        ->setCellValue('C'.$index,$this->change_tourist_type($val['type']))
-                        ->setCellValue('D'.$index,$val['phone_num'])
-                        ->setCellValue('E'.$index,$this->change_id_card_type($val['id_card_type']))
-                        ->setCellValue('F'.$index,$val['id_number'])
-                        ->setCellValue('G'.$index,($val['singleroom'] == 0) ? '否' : '是')
-                        ->setCellValue('H'.$index,$val['note']);
+                $spreadsheet->setActiveSheetIndex(0)
+                    ->setCellValue('A1', '姓名')
+                    ->setCellValue('B1', '性别')
+                    ->setCellValue('C1', '类型')
+                    ->setCellValue('D1', '手机号')
+                    ->setCellValue('E1', '证件类型')
+                    ->setCellValue('F1', '证件号')
+                    ->setCellValue('G1', '单房差')
+                    ->setCellValue('H1', '备注');
+
+                if (count($result) > 0){
+                    foreach ($result as $key=>$val){
+                        $index= $key+2;
+                        $spreadsheet->setActiveSheetIndex(0)
+                            ->setCellValue('A'.$index,$val['name'])
+                            ->setCellValue('B'.$index,$this->get_sex($val['gender']))
+                            ->setCellValue('C'.$index,$this->change_tourist_type($val['type']))
+                            ->setCellValue('D'.$index,$val['phone_num'])
+                            ->setCellValue('E'.$index,$this->change_id_card_type($val['id_card_type']))
+                            ->setCellValue('F'.$index,$val['id_number'])
+                            ->setCellValue('G'.$index,($val['singleroom'] == 0) ? '否' : '是')
+                            ->setCellValue('H'.$index,$val['note']);
+                    }
                 }
+
+                $styleArray = [
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'borders' => [
+                        'outline' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+                            'color' => ['argb' => '333333'],
+                        ],
+                    ],
+                ];
+
+                $styleArrayBody = [
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '666666'],
+                        ],
+                    ],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                    ],
+                ];
+                $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+                $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+                $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(60);
+                $worksheet->getStyle('A1:H1')->applyFromArray($styleArray);
+                $worksheet->getStyle('A2:H'.$index)->applyFromArray($styleArrayBody);
+
+                $spreadsheet->getActiveSheet()->setTitle('游客表');
+                $spreadsheet->setActiveSheetIndex(0);
+
+                /* Here there will be some code where you create $spreadsheet */
+
+                // redirect output to client browser
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="myfilep.xlsx"');
+                header('Cache-Control: max-age=0');
+
+                $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+                $writer->save('php://output');
             }
 
-            $styleArray = [
-                'font' => [
-                    'bold' => true,
-                ],
-                'borders' => [
-                    'outline' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
-                        'color' => ['argb' => '333333'],
-                    ],
-                ],
-            ];
+            $total = $this->Article_model->get_tourist_count();
 
-            $styleArrayBody = [
-                'borders' => [
-                    'allBorders' => [
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        'color' => ['argb' => '666666'],
-                    ],
-                ],
-                'alignment' => [
-                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
-                ],
-            ];
-            $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-            $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(30);
-            $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(60);
-            $worksheet->getStyle('A1:H1')->applyFromArray($styleArray);
-            $worksheet->getStyle('A2:H'.$index)->applyFromArray($styleArrayBody);
+            $total_page = ceil($total/$page_size);
+            $export_str = '';
 
-            $spreadsheet->getActiveSheet()->setTitle('游客表');
-            $spreadsheet->setActiveSheetIndex(0);
-
-            /* Here there will be some code where you create $spreadsheet */
-
-            // redirect output to client browser
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="myfilep.xlsx"');
-            header('Cache-Control: max-age=0');
-
-            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-            $writer->save('php://output');
+            for($i=1;$i<=$total_page;$i++){
+                $start = ($i-1)*$page_size;
+                $end = $start+$page_size;
+                if($i == $total_page) $end = $total;
+                $export_str.='<option value="'.$i.'">'.$start.'-'.$end.'</option>';
+            }
+            $arr['export_str'] = $export_str;
+            $this->load->view('export',$arr);
 
         }
 
