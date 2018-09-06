@@ -23,7 +23,7 @@
 	
 	5.整合PHPmailer发送邮件 访问地址http://xxx.com/email/index/index(需要配置你自己的163邮箱和邮箱独立密码，并配置好邮箱相关配置)
 	
-	6.wangeditor编辑器整合 访问地址http://xxx.come/editor/index/index
+	6.wangeditor编辑器整合 访问地址http://xxx.come/editor/index/wangeditor
 	
 	7.ajax无刷新分页 访问地址http://xxx.com/ajaxpage/index/index
 	
