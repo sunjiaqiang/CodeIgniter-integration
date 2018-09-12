@@ -58,7 +58,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 $singleroom_tmp = $sheetData->getCell('G'.$row)->getValue();
                 $result[$row-2]['singleroom'] = empty($singleroom_tmp) ? 0 : ($singleroom_tmp == '是' ) ? 1 :0 ;
                 $result[$row-2]['note'] = $sheetData->getCell('H'.$row)->getValue();
-                $result[$row-2]['age'] = (int)(date('Y-m-d')-substr($id_num,6,4));
+                $result[$row-2]['age'] = floor((time()-strtotime(substr($id_num,6,4)))/3600/24/365);
             }
 
             foreach ($result as $key=>$val){
@@ -78,7 +78,6 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
          */
         public function export_xls(){
-
             $cur_page = ($this->input->get_post('page')) ? $this->input->get_post('page') : 1;
             $page_size = 1000;//每页导出一千条数据
 
