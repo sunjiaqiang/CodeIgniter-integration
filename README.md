@@ -41,6 +41,8 @@
 	
 	14.phpspreadsheet+jquery.tmpl数据导入导出excel 访问地址http://xxx.com/excel/index/index(导入excel)，http://xxx.com/excel/index/export_excel(导出excel)
 	
+	15.plupload整合阿里云oss文件上传与删除等功能 访问地址 http://xxx.com/plupload/index/index2
+	
 # 使用说明
 本着开源以及使广大猿们少走弯路和少造轮子的精神，开源这些源码，你可以使用到你的任何项目当中去，但是不得将此源码中的任何功能进行售卖，
 一经发现本人保留追究其责任的权利。
