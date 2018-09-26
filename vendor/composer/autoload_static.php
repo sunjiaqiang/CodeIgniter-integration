@@ -16,6 +16,10 @@ class ComposerStaticInit8807201229e47dc97bcfb654749d976a
             'Psr\\SimpleCache\\' => 16,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
+        'O' => 
+        array (
+            'OSS\\' => 4,
+        ),
         'E' => 
         array (
             'Endroid\\QrCode\\' => 15,
@@ -34,6 +38,10 @@ class ComposerStaticInit8807201229e47dc97bcfb654749d976a
         'PhpOffice\\PhpSpreadsheet\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'OSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
         ),
         'Endroid\\QrCode\\' => 
         array (
