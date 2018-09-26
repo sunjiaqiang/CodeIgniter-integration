@@ -25,7 +25,7 @@
 	
 	6.wangeditor编辑器整合 访问地址http://xxx.come/editor/index/wangeditor
 	
-	7.ajax无刷新分页 访问地址http://xxx.com/ajaxpage/index/index
+	7.ajax无刷新分页 访问地址http://xxx.com/ajaxpage/index/index(正常的分页码，自定义的分页类，可以学到如何扩展ci框架)
 	
 	8.ajax滚动加载数据 访问地址http://xxx.com/scroll/index
 	

@@ -13,6 +13,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $this->load->model('admin.Area_model');
         }
         public function index(){
+
+            p(getcwd());
+            p(__DIR__);
+            exit;
             $id = $this->input->get('id');
             $list = $this->Area_model->get_area_by_id($id);
             echo json_encode($list);
