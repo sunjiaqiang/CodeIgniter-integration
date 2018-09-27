@@ -5,6 +5,8 @@
  * Date: 2018/9/21
  * Time: 16:44
  */
+//本项目的依赖库，依赖于composer自动加载，在config/config.php中已经引入了autoload.php文件，所以这里不需要再次引入sdk下面的autoload.php
+//config.php是自动载入的，所以类库已经自动加载，可以直接使用
 USE OSS\OssClient;
 USE OSS\Core\OssException;
 class Aliupload{
@@ -15,7 +17,6 @@ class Aliupload{
     /**
      * 构造函数初始化配置
      * Aliupload constructor.
-     * @param array $config
      */
     public function __construct()
     {

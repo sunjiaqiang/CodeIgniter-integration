@@ -41,7 +41,13 @@
 	
 	14.phpspreadsheet+jquery.tmpl数据导入导出excel 访问地址http://xxx.com/excel/index/index(导入excel)，http://xxx.com/excel/index/export_excel(导出excel)
 	
-	15.plupload整合阿里云oss文件上传与删除等功能 访问地址 http://xxx.com/plupload/index/index2
+	15.阿里云oss整合plupload文件上传与删除等功能 访问地址 http://xxx.com/plupload/index/alioss
+	
+	16.七牛云oss整合plupload文件上传与删除 访问地址 http://xxx.com/plupload/index/qiniu
+
+#相关库说明
+阿里云和七牛云等这些库使用composer自动加载,使用阿里云和七牛云需要到对应官网按照教程申请好相关key和秘钥，然后将项目里面的配置文件配置完毕即可使用。
+第7点ajax无刷新分页使用了自定义的分页类，url传参及分页样式自定义输出都是非常方便的，另外我对此分页类也写了一篇文章<a href="https://www.cnblogs.com/phproom/p/9588656.html">PHP+Mysql实现分页</a>和此分页功能类似。
 	
 # 使用说明
 本着开源以及使广大猿们少走弯路和少造轮子的精神，开源这些源码，你可以使用到你的任何项目当中去，但是不得将此源码中的任何功能进行售卖，

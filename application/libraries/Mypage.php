@@ -19,31 +19,41 @@
 		private $mode='';//分页模式,为ajax时表示ajax分页
 		private $model_name = 'search_list';//为ajax分页时的js函数名称
 
-		public function __construct($params=array()){
+        /**
+         * 构造函数初始化分页配置
+         * Mypage constructor.
+         * @param array $params 分页配置数组
+         */
+		public function __construct(array $params=array()){
 			if (count($params)>0) {
 				$this->initialize($params);
 				log_message('info', 'Pagination Class Initialized');
 			}
 		}
-		//初始化分页配置
-		public function initialize($params=array()){
-			$this->cur_page=$params['cur_page'] ? intval($params['cur_page']) : 1;
-			$this->total_rows=$params['total_rows'] ? intval($params['total_rows']) : '';
-			$this->per_page=$params['per_page'] ? intval($params['per_page']) : 12;
-			$this->base_url=isset($params['base_url']) ? $params['base_url'] : '';
-			$this->first_page=isset($params['first_page']) ? $params['first_page'] : '首页';
-			$this->prev_page=isset($params['prev_page']) ? $params['prev_page'] : '上一页';
-			$this->next_page=isset($params['next_page']) ? $params['next_page'] : '下一页';
-			$this->last_page=isset($params['last_page']) ? $params['last_page'] : '尾页';
-			$this->num_links=isset($params['num_links']) ? $params['num_links'] : 2;
+
+        /**
+         * 初始化分页配置
+         * @param array $params 分页配置数组
+         */
+		public function initialize( array $params=array()){
+			$this->cur_page = $params['cur_page'] ? intval($params['cur_page']) : 1;
+			$this->total_rows = $params['total_rows'] ? intval($params['total_rows']) : '';
+			$this->per_page = $params['per_page'] ? intval($params['per_page']) : 12;
+			$this->base_url = isset($params['base_url']) ? $params['base_url'] : '';
+			$this->first_page = isset($params['first_page']) ? $params['first_page'] : '首页';
+			$this->prev_page = isset($params['prev_page']) ? $params['prev_page'] : '上一页';
+			$this->next_page = isset($params['next_page']) ? $params['next_page'] : '下一页';
+			$this->last_page = isset($params['last_page']) ? $params['last_page'] : '尾页';
+			$this->num_links = isset($params['num_links']) ? $params['num_links'] : 2;
 			$this->mode = isset($params['mode']) ? $params['mode'] : '';
 			$this->model_name = isset($params['model_name']) ? $params['model_name'] : 'search_list';
-			$this->params=isset($params['params']) ? $params['params'] : '';
-			$this->total_page=ceil($this->total_rows/$this->per_page);
+			$this->params = isset($params['params']) ? $params['params'] : '';
+			$this->total_page = ceil($this->total_rows/$this->per_page);
 			$this->_myset_url($this->base_url);//设置链接地址
 		}
 
 		/**
+         * 生成上一页页码地址
 		 * [prev_page description]
 		 * @return [type] [description]
 		 */
@@ -54,6 +64,7 @@
 			return '<span>'.$this->prev_page.'</span>';
 		}
 		/**
+         * 生成下一页页码地址
 		 * [next_page description]
 		 * @return [type] [description]
 		 */
@@ -64,6 +75,7 @@
 			return '<span>'.$this->next_page.'</span>';
 		}
 		/**
+         * 生成第一页页码地址
 		 * [get_first_page description]
 		 * @return [type] [description]
 		 */
@@ -73,6 +85,11 @@
 			}
 			return '<span>'.$this->first_page.'</span>';
 		}
+
+        /**
+         * 生成最后一页页码地址
+         * @return string
+         */
 		private function get_last_page(){
 			if ($this->cur_page<$this->total_page) {
 				return $this->_get_link($this->_get_url($this->total_page),$this->last_page);
@@ -80,6 +97,7 @@
 			return '<span>'.$this->last_page.'</span>';
 		}
 		/**
+         * 生成中间数字页码
 		 * [now_bar description]
 		 * @return [type] [description]
 		 */
@@ -109,6 +127,7 @@
 			return $out;
 		}
 		/**
+         * 生成下拉框页码选择
 		 * [select_page description]
 		 * @return [type] [description]
 		 */
@@ -130,6 +149,7 @@
 		}
 
 		/**
+         * 输出分页
 		 * [show description]
 		 * @return [type] [description]
 		 */
@@ -138,6 +158,7 @@
 		}
 
 		/**
+         * 获取指定页码的地址
 		 * [_get_url description]
 		 * @param  [type] $num [description]
 		 * @return [type]      [description]
@@ -146,51 +167,51 @@
 			if($this->mode == 'ajax') return $num;
 			return $this->base_url.'/'.$num;
 		}
-     
-		 /**
-    * 设置url头地址
-    * @param: String $url
-    * @return boolean
-    */
-    public function _myset_url($url)
-    {
-        /*$CI=&get_instance();
-        $CI->load->helper('url');
-        if (empty($url)) {//如果$url为空，要用uri_string()函数取uri段
-            $cururl='';
-            $cururl=uri_string();
-            $segementarray=explode("/",$cururl);          
-            $c=0;
-            for ($i=0; $i < sizeof($segementarray); $i++) {
-                if ($segementarray[$i] && $c < $this->seg-1) {//取uri_string()的seg-1段
-                    $url=$url.'/'.$segementarray[$i];                   
-                    $c++;
+        /**
+        * 设置url头地址
+        * @param: String $url
+        * @return boolean
+        */
+        public function _myset_url($url)
+        {
+            /*$CI=&get_instance();
+            $CI->load->helper('url');
+            if (empty($url)) {//如果$url为空，要用uri_string()函数取uri段
+                $cururl='';
+                $cururl=uri_string();
+                $segementarray=explode("/",$cururl);
+                $c=0;
+                for ($i=0; $i < sizeof($segementarray); $i++) {
+                    if ($segementarray[$i] && $c < $this->seg-1) {//取uri_string()的seg-1段
+                        $url=$url.'/'.$segementarray[$i];
+                        $c++;
+                    }
                 }
-            }   
-        }
-        $this->base_url=base_url($url);*/
-        if (empty($url)) {
-        	   $cururl=$_SERVER['REDIRECT_QUERY_STRING'];
-		       $url_arr=explode('/',$cururl);
-		       foreach ($url_arr as $key => $val) {
-		       		if (empty($key)) {
-		       			unset($url_arr[$key]);
-		       		}
-		       }
-		       $c=0;
-		      foreach ($url_arr as $key => $val) {
-		      	 if($url_arr[$key] && $c<$this->seg-1){
-		      	 	 $url=$url.'/'.$val;
-		         	 $c++;
-		      	 }
-		         
-		      }  
-		       $this->base_url=base_url($url);
-        }
+            }
+            $this->base_url=base_url($url);*/
+            if (empty($url)) {
+                   $cururl=$_SERVER['REDIRECT_QUERY_STRING'];
+                   $url_arr=explode('/',$cururl);
+                   foreach ($url_arr as $key => $val) {
+                        if (empty($key)) {
+                            unset($url_arr[$key]);
+                        }
+                   }
+                   $c=0;
+                  foreach ($url_arr as $key => $val) {
+                     if($url_arr[$key] && $c<$this->seg-1){
+                         $url=$url.'/'.$val;
+                         $c++;
+                     }
 
-    }
+                  }
+                   $this->base_url=base_url($url);
+            }
+
+        }
      
 		/**
+         * 获取指定地址的a链接
 		 * [_get_link description]
 		 * @param  [type] $url  [description]
 		 * @param  [type] $text [description]
@@ -217,6 +238,7 @@
 			return '<span>'.$text.'</span>';
 		}
 		/**
+         * 获取总条数
 		 * [show_total description]
 		 * @return [type] [description]
 		 */
@@ -224,6 +246,7 @@
 			return '共'.$this->total_rows.'条';
 		}
 		/**
+         * 获取总页数
 		 * [show_total_page description]
 		 * @return [type] [description]
 		 */

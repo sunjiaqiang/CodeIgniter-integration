@@ -14,7 +14,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         }
 
         /**
-         * 上传首页
+         * 上传首页(plupload上传文件到本地)
          */
         public function index(){
             $this->load->view('upload');
@@ -23,8 +23,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         /**
          * 阿里oss图片上传
          */
-        public function index2(){
+        public function alioss(){
             $this->load->view('alioss_upload');
+        }
+        /**
+         * 七牛oss图片上传
+         */
+        public function qiniu(){
+            $this->load->view('qiniu_upload');
         }
         /**
          * 上传图片
@@ -81,7 +87,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $path = $this->input->post('pic');
             $this->config->load('alioss',TRUE);
             $config = $this->config->item('oss','alioss');
-            $object = str_replace('http://'.$config['bucket'].'.'.$config['endpoint'].'/','',$path);
+            $object = str_replace('http://'.$config['bucket'].'.'.$config['endpoint'].'/','',$path);//删除文件不需要域名前缀，所以要把域名信息替换掉
             $this->load->library('aliupload');
             $file_exist = $this->aliupload->_check_file_exist($object);
             if ($file_exist){
@@ -96,6 +102,50 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                     'msg'=>"文件不存在"
                 );
             }
+            echo json_encode($status);
+        }
+
+        /**
+         * qiniuoss上传文件(此处以图片为例)
+         */
+        public function qiniuupload(){
+            $this->load->library('qiniuupload');
+            $local_file = $_FILES['file']['tmp_name'];
+            $ext = substr($_FILES['file']['name'],strrpos($_FILES['file']['name'],'.')+1);
+            $remote_file = date('Y-m').'/'.date('YmdHis').mt_rand(1000,9999).'.'.$ext;
+            $result = $this->qiniuupload->_upload($local_file,$remote_file);
+            if ($result){
+                $arr['status'] = 1;
+                $arr['pic'] = $result;
+                $arr['msg'] = "上传成功";
+            }else{
+                $arr['status'] = -1;
+                $arr['msg'] = "上传失败";
+            }
+            echo json_encode($arr);
+        }
+
+        /**
+         * 七牛oss删除文件
+         */
+        public function qiniu_delete_file(){
+            $path = $this->input->post('pic');
+            $path = str_replace('\\','/',$path);
+            $this->config->load('qiniuoss',TRUE);
+            $config = $this->config->item('oss','qiniuoss');
+            $object = str_replace($config['image_url'].'/','',$path);//删除文件不需要域名前缀，所以要把域名信息替换掉
+            $this->load->library('qiniuupload');
+            $result = $this->qiniuupload->_delete_file($object);
+            if ($result){
+                $status = array(
+                    'status'=>1,
+                    'msg'=>"删除成功"
+                );
+            }else{
+                $status['status'] = -1;
+                $status['msg'] = "删除失败";
+            }
+
             echo json_encode($status);
         }
     }

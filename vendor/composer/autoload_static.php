@@ -6,10 +6,18 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit8807201229e47dc97bcfb654749d976a
 {
+    public static $files = array (
+        '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
             'Symfony\\Component\\OptionsResolver\\' => 34,
+        ),
+        'Q' => 
+        array (
+            'Qiniu\\' => 6,
         ),
         'P' => 
         array (
@@ -30,6 +38,10 @@ class ComposerStaticInit8807201229e47dc97bcfb654749d976a
         'Symfony\\Component\\OptionsResolver\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
+        ),
+        'Qiniu\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
         ),
         'Psr\\SimpleCache\\' => 
         array (
