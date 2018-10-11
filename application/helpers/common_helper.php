@@ -180,7 +180,61 @@ if ( ! function_exists('download')){
         fclose($file);
     }
 }
-
+/**
+ * 获取客户端IP地址
+ * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
+ * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
+ * @return mixed
+ */
+if ( ! function_exists('get_client_ip'))
+{
+    function get_client_ip($type = 0, $adv = false) {
+        $type = $type ? 1 : 0;
+        static $ip = NULL;
+        if ($ip !== NULL)
+            return $ip[$type];
+        if ($adv) {
+            if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+                $pos = array_search('unknown', $arr);
+                if (false !== $pos)
+                    unset($arr[$pos]);
+                $ip = trim($arr[0]);
+            }elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $ip = $_SERVER['HTTP_CLIENT_IP'];
+            } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+                $ip = $_SERVER['REMOTE_ADDR'];
+            }
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        // IP地址合法验证
+        $long = sprintf("%u", ip2long($ip));
+        $ip = $long ? array($ip, $long) : array('0.0.0.0', 0);
+        return $ip[$type];
+    }
+}
+/**
+ * 判断手机端
+ */
+if(!function_exists('check_wap'))
+{
+    function check_wap()
+    {
+        /*if(site_url('')=='http://www.66diqiu.cn/'){
+            return false;
+        }*/
+        if(stristr(@$_SERVER['HTTP_VIA'],"wap")){// 先检查是否为wap代理，准确度高
+            return true;
+        }elseif(strpos(strtoupper(@$_SERVER['HTTP_ACCEPT']),"VND.WAP.WML") > 0){// 检查浏览器是否接受 WML.
+            return true;
+        }elseif(preg_match('/(blackberry|configuration\/cldc|hp |hp-|htc |htc_|htc-|iemobile|kindle|midp|mmp|motorola|mobile|nokia|opera mini|opera |Googlebot-Mobile|YahooSeeker\/M1A1-R2D2|android|iphone|ipod|mobi|palm|palmos|pocket|portalmmm|ppc;|smartphone|sonyericsson|sqh|spv|symbian|treo|up.browser|up.link|vodafone|windows ce|xda |xda_)/i', $_SERVER['HTTP_USER_AGENT'])){//检查USER_AGENT
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
 if (!function_exists('p')) {
     /**
      * [p 传递数据以易于阅读的样式格式化后输出]

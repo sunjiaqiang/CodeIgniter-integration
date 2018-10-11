@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <base href="<?=site_url('')?>">
+  <base href="<?=base_url('')?>">
   <title>七牛oss整合plupload图片文件上传</title>
-    <script src="<?php echo base_url();?>public/js/jquery/jquery-1.9.1.min.js"></script>
-    <script src="<?php echo base_url();?>public/js/plupload/plupload.min.js"></script>
+    <script src="<?=STATIC_PATH;?>js/jquery/jquery-1.9.1.min.js"></script>
+    <script src="<?=STATIC_PATH;?>js/plupload/plupload.min.js"></script>
   <style>
      a{cursor:pointer;}
             body{background: #fff none repeat scroll 0 0; color: #333; font: 12px/1.5 "Microsoft YaHei","Helvetica Neue",Helvetica,STHeiTi,sans-serif; background-position: left top; background-repeat: repeat; background-attachment: scroll;}
