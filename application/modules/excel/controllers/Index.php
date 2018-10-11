@@ -20,6 +20,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          * excel导入1
          */
         public function index(){
+
+            p($GLOBALS['test']);
+            p(ROOTPATH);
+
             $this->load->view('index');
         }
 
