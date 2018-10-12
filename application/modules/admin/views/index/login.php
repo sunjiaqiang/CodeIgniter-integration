@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta content="telephone=no" name="format-detection"/>
     <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <title>溜溜云-旅游同业分销</title>
+    <title>网站后台登录</title>
     <link rel="stylesheet" href="<?=STATIC_PATH;?>b2b_index/css/login.css">
     <script src="<?=STATIC_PATH;?>js/jquery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
