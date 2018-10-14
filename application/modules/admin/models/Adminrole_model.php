@@ -36,4 +36,14 @@ class Admin_Adminrole_model extends CI_Model{
         $result = $query->result_array();
         return $result;
     }
+    /**
+     * 获取可用角色列表
+     */
+    public function get_usable_list(){
+        $where = ['status'=>1,'sid'=>100002];
+        $this->db->where($where);
+        $this->db->select('id,name');
+        $query = $this->db->get($this->table_role);
+        return $query->result_array();
+    }
 }

@@ -130,6 +130,19 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         }
 
         /**
+         * 引入公共头部
+         */
+        public function page_header(){
+            $this->load->view('public/page_header');
+        }
+        /**
+         * 引入公共尾部
+         */
+        public function page_footer(){
+            $this->load->view('public/page_footer');
+        }
+
+        /**
          * 退出登录
          */
         public function logout(){

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>实例详解CSS中position的fixed属性使用</title>
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="select2.js"></script>
+<script type="text/javascript" src="select2_locale_zh-CN.js"></script>
+<link href="select2.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<input type="hidden" class="bigdrop" id="e6" style="width:200px"/>
+<script id="script_e6">
+$(document).ready(function() {
+$("#e6").select2({
+    placeholder: "查找线路",
+    ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+        url: "http://2014.ci.com/order/admin/order",
+        dataType: 'json',
+        data: function (term, page) {
+            return {
+                q: term, // search term
+            };
+        },
+        results: function (data) { // parse the results into the format expected by Select2.
+            // since we are using custom formatting functions we do not need to alter remote JSON data
+            return {results: data};
+        }
+    },
+    formatResult: movieFormatResult, // omitted for brevity, see the source of this page
+    formatSelection: movieFormatSelection,  // omitted for brevity, see the source of this page
+    dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+    escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+});
+});
+
+function movieFormatResult(movie) {
+	var markup = "<table class='movie-result'><tr>";
+	markup += "<td class='movie-info'><div class='movie-title'>" + movie.name + "</div>";
+	markup += "</td></tr></table>";
+	return markup;
+}
+
+function movieFormatSelection(movie) {
+	return movie.name;
+}
+</script>
+</body>
+</html>

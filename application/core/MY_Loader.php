@@ -129,12 +129,14 @@ class MY_Loader extends CI_Loader {
                 }
                 else
                 {
-                    throw new RuntimeException('Unable to locate the module you have specified: '.$path);
+                    show_error('Unable to locate the module you have specified: '.$path, 404);
+//                    throw new RuntimeException('Unable to locate the module you have specified: '.$path);
                 }
             }
             else
             {
-                throw new RuntimeException('Unable to locate the module you have specified: '.$module_uri);
+                show_error('Unable to locate the module you have specified: '.$module_uri, 404);
+//                throw new RuntimeException('Unable to locate the module you have specified: '.$module_uri);
             }
 
             if ($path != '')
@@ -155,7 +157,8 @@ class MY_Loader extends CI_Loader {
 
         if ( ! file_exists($controller_path))
         {
-            throw new RuntimeException('Unable to locate the module you have specified: '.$path.$module.'/controllers/'.$controller.'.php');
+            show_error('Unable to locate the module you have specified: '.$path.$module.'/controllers/'.$controller.'.php', 404);
+//            throw new RuntimeException('Unable to locate the module you have specified: '.$path.$module.'/controllers/'.$controller.'.php');
         }
 
         if ( ! class_exists('CI_Module'))
@@ -217,7 +220,8 @@ class MY_Loader extends CI_Loader {
         }
         else
         {
-            throw new RuntimeException('Unable to locate the '.$method.' method you have specified: '.$class_name);
+            show_error('Unable to locate the '.$method.' method you have specified: '.$class_name, 404);
+//            throw new RuntimeException('Unable to locate the '.$method.' method you have specified: '.$class_name);
         }
     }
 

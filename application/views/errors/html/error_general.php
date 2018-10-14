@@ -1,64 +1,50 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Error</title>
-<style type="text/css">
+	<title>Error404</title>
+	<style type="text/css">
+		*{ margin:0; padding:0;}
+		img{ border:none;}
+		ul,li{ list-style:none;}
+		a{ text-decoration:none;}
+		body{ font-size:12px; font-family:"宋体"; background:#ededed;}
 
-::selection { background-color: #E13300; color: white; }
-::-moz-selection { background-color: #E13300; color: white; }
+		.header,.butt{ width:960px; margin:0 auto;}
 
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
-}
-
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
-}
-
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
-}
-
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
-
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	box-shadow: 0 0 8px #D0D0D0;
-}
-
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
+		.header{  overflow:hidden; border-bottom:solid 1px #CCCCCC; height:340px; width:980px; margin: auto;}
+		.header_lt,.header_rt{ float:left; margin-top:50px; margin-bottom:50px;}
+		.header_lt{ margin-left:0!important;}
+		.header_rt{ margin-left:20px;}
+		.rt_b{ line-height:30px; padding-left:40px;}
+		.rt_b span{ font-size:14px; color:#707070; font-weight:700;}
+		.rt_b a{ font-size:14px; color:#707070; font-weight:700;}
+		.rt_b a:hover{ color:#ff8003;}
+		.butt{ clear:both; overflow:hidden; text-align:center;}
+		.biao{ font-size:16px; font-family:"微软雅黑"; color:#303030; text-align:center; margin-top:15px; overflow:hidden;}
+		.qw{ float:left; width:550px;}
+		.qw li{ float:left; display:block; margin-left:10px; margin-top:10px;}
+		.qw li a{ display:block; width:100px; height:26px; line-height:26px; color:#ff7200; font-size:14px; font-weight:700;}
+		.qw li a:hover{ color:#FFFFFF; background:#ff7200;}
+		.par1{ overflow:hidden; margin-left:180px; margin-top:10px; clear:both;}
+		div.gray p{color:#999}
+	</style>
 </head>
 <body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+<!--	<div id="container">-->
+<!--		<h1>--><?php //echo $heading; ?><!--</h1>-->
+<!--		--><?php //echo $message; ?>
+<!--	</div>-->
+<div class="header">
+	<div class="header_lt"><img src="<?=STATIC_PATH;?>images/error_1.jpg" /></div>
+	<div class="header_rt">
+		<div class="rt_t"><img src="<?=STATIC_PATH;?>images/error_2.gif" /></div>
+		<div class="rt_b">
+			<span>点击以下链接断续浏览网站</span><br />
+			<a href="#" onclick='history.go(-1)'>>>返回上一页面</a><br />
+			<a href="<?php echo site_url('')?>">>>返回首页</a>
+			<div class="gray"><?php echo $message; ?></div>
+		</div>
 	</div>
+</div>
 </body>
 </html>
