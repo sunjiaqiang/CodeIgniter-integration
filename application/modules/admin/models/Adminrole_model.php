@@ -73,9 +73,9 @@ class Admin_Adminrole_model extends CI_Model{
         $result = $query->result_array();
         $data = array();
         foreach($result as $row){
-            $row['remove_url'] = site_url('admin/adminrole/ajax_remove?id='.$row['id']);
-            $row['edit_url'] = site_url('admin/adminrole/edit?id='.$row['id']);
-            $row['author_url'] = site_url('admin/adminrole/set_authority?id='.$row['id']);
+            $row['remove_url'] = site_url('buyer/role/ajax_remove?id='.$row['id']);
+            $row['edit_url'] = site_url('buyer/role/edit?id='.$row['id']);
+            $row['author_url'] = site_url('buyer/role/set_authority?id='.$row['id']);
             $data[] = $row;
         }
         return $data;
@@ -89,5 +89,29 @@ class Admin_Adminrole_model extends CI_Model{
     public function edit_row($data=[],$where=''){
         $this->db->where($where,null,false);
         return $this->db->update($this->table_role,$data);
+    }
+
+    /**
+     * 新增数据
+     * @param array $data
+     */
+    public function add_row($data=[]){
+        $result = $this->db->insert($this->table_role,$data);
+        if (false !== $result){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+    /**
+     * 获取单条记录
+     * @param array $where 查询条件
+     * @param string $field
+     * @return mixed
+     */
+    public function get_row($where=[],$field='*'){
+        if(!empty($field))$this->db->select($field);
+        $query = $this->db->get_where($this->table_role,$where,1);
+        return $query->row_array();
     }
 }

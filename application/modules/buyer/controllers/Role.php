@@ -31,6 +31,53 @@ class Buyer_Role_module extends CI_Module{
         $data['list'] = $result;
         $this->load->view('buyer/adminrole_index',$data);
     }
+
+    /**
+     * 添加角色
+     */
+    public function add(){
+        //数据保存URL
+        $data['form_post'] = site_url('buyer/role/save');
+        $data['ajax_check_name'] = site_url('buyer/role/ajax_check_name?id=0');
+        $this->load->view('buyer/adminrole_add',$data);
+    }
+
+    /**
+     * 角色编辑
+     */
+    public function edit(){
+        $id = $this->input->get('id');
+        $row = $this->Adminrole_model->get_row(['id'=>$id]);
+        $data['row'] = $row;
+
+        //数据保存URL
+        $data['form_post'] = site_url('buyer/role/save');
+        $data['ajax_check_name'] = site_url("buyer/role/ajax_check_name?id=$id");
+        $this->load->view('buyer/adminrole_edit',$data);
+    }
+    /**
+     * 保存角色信息
+     */
+    public function save(){
+        $data = $this->input->post('Form');
+        $data['sid'] = 100002;
+        $id = $this->input->post('id');
+        if ($id){
+            //修改数据
+            $data['edit_time'] = date('Y-m-d H:i:s',time());
+            $res = $this->Adminrole_model->edit_row($data,['id'=>$id]);
+        }else{
+            //新增数据
+            $data['add_time'] = date('Y-m-d H:i:s',time());
+            $res = $this->Adminrole_model->add_row($data);
+        }
+        if($res){
+            $this->success('保存成功',site_url('buyer/role/index'),true);
+        }else{
+            $this->error('保存失败',site_url('buyer/role/index'),true);
+        }
+    }
+
     /**
      * 修改状态信息
      */
@@ -43,6 +90,18 @@ class Buyer_Role_module extends CI_Module{
             $this->success('操作成功','',true);
         }else{
             $this->error('操作失败','',true);
+        }
+    }
+    /**
+     * 判断管理员角色的名称是否存在
+     */
+    public function ajax_check_name(){
+        $arg_get = $this->input->get();
+        $row = $this->Adminrole_model->get_row(['name'=>$arg_get['Form']['name'],'id !='=>$arg_get['id'],'sid'=>100002]);
+        if(!empty($row) && is_array($row)){
+            $this->ajaxReturn('此管理员角色名称已存在!');
+        }else{
+            $this->ajaxReturn(true);
         }
     }
 }
