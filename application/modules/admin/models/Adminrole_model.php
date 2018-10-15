@@ -46,4 +46,48 @@ class Admin_Adminrole_model extends CI_Model{
         $query = $this->db->get($this->table_role);
         return $query->result_array();
     }
+
+    /**
+     * 获取角色总条数
+     * @param string $where
+     */
+    public function get_count($where=''){
+        $sql = "SELECT COUNT(1) nums FROM $this->table_role";
+        $where ? $sql.=" WHERE $where" : '';
+        $query = $this->db->query($sql);
+        $row = $query->row_array();
+        return $row['nums'];
+    }
+    /**
+     * 获取所有管理管理员角色
+     * @param int $page_size 每页显示数量
+     * @param int $now_page 第几页
+     * @param $where 选择条件
+     * @return array
+     */
+    public function get_list($page_size=20,$cur_page=1,$where=''){
+        $sql = "SELECT id,name,status,remark,add_time,edit_time FROM $this->table_role";
+        $where ? $sql .= " WHERE $where" : '';
+        $sql .= " ORDER BY id ASC LIMIT ?,?";
+        $query = $this->db->query($sql,[($cur_page-1)*$page_size,$page_size]);
+        $result = $query->result_array();
+        $data = array();
+        foreach($result as $row){
+            $row['remove_url'] = site_url('admin/adminrole/ajax_remove?id='.$row['id']);
+            $row['edit_url'] = site_url('admin/adminrole/edit?id='.$row['id']);
+            $row['author_url'] = site_url('admin/adminrole/set_authority?id='.$row['id']);
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    /**
+     * 修改角色信息
+     * @param array $data
+     * @param string $where
+     */
+    public function edit_row($data=[],$where=''){
+        $this->db->where($where,null,false);
+        return $this->db->update($this->table_role,$data);
+    }
 }

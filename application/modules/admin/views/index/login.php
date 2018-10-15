@@ -69,7 +69,7 @@
         <button type="submit" class="login-btn" tabindex="4" id="subbtn">登录</button>
         <p class="agree">
               <input type="checkbox" value="0" checked disabled>
-              <a href="javascript:;" id="js-show-protocol">我已阅读并同意《溜溜云网站服务协议》</a> </p>
+              <a href="javascript:;" id="js-show-protocol">我已阅读并同意《网站服务协议》</a> </p>
       </form>
         </div>
   </div>

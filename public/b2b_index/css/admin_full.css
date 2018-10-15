@@ -3438,3 +3438,12 @@ table.default tr.odd{background:#f1f1f1}
 .table_full tr:hover .fun_tips{
 	color:rgb(245, 139, 16);
 }
+
+.pgselect {
+	border: 1px solid #ccc;
+	margin: 0 5px;
+	padding: 0;
+	padding-left: 5px;
+	height: 23px;
+	line-height: 23px;
+}

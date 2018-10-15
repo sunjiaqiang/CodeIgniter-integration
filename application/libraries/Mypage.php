@@ -101,7 +101,7 @@
 		 * [now_bar description]
 		 * @return [type] [description]
 		 */
-		private function now_bar(){
+		private function now_bar($nowindex_style='pg_curr'){
 			$plus=$this->num_links;
 			if ($this->cur_page>$plus) {
 				$ben=$this->cur_page-$plus;				
@@ -118,7 +118,7 @@
 			$out='';
 			for ($i=$ben; $i <= $end; $i++) {
 				if ($i==$this->cur_page) {
-				 	$out.='<span>'.$i.'</span>';
+				 	$out.='<span class="'.$nowindex_style.'">'.$i.'</span>';
 				 }else{				 	
 					$out.=$this->_get_link($this->_get_url($i),$i);
 				 } 
@@ -133,7 +133,7 @@
 		 */
 		private function select_page(){
 			$url=$this->base_url.'/';
-			$out='<select name="pagelect" class="pg_select" data-uri="'.$this->base_url.'" data-param="'.$this->params.'">';
+			$out='<select name="pagelect" class="pgselect" data-uri="'.$this->base_url.'" data-param="'.$this->params.'">';
 			if($this->mode=='ajax'){
 				$out='<select onchange="'.$this->model_name.'(this.value);return false;">';
 			}

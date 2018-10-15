@@ -1,0 +1,58 @@
+﻿@charset "utf-8";
+
+html,body{height:100%;background:#f2f6f8;color:#333;}
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote,
+dl, dt, dd, ul, ol, li,div,i,em,
+pre,
+form, fieldset, legend, button, input, textarea,label
+table,thead,tbody,tfoot,th, td, tr,div{
+    margin: 0;
+    padding: 0;
+}
+
+body,
+button, input, select, textarea {
+    font: 12px/1.5  Microsoft YaHei,sans-serif,tahoma,arial, \5b8b\4f53;
+}
+body a{outline:none;blr:expression(this.onFocus=this.blur());}
+h1, h2, h3, h4, h5, h6 { font-size: 100%;font-weight:normal; }
+address, cite, dfn, em, var { font-style: normal; }
+code, kbd, pre, samp { font-family: courier new, courier, monospace; }
+small { font-size: 12px; }
+
+ul, ol { list-style: none; }
+
+a { text-decoration: none; }
+
+sup { vertical-align: text-top; }
+sub { vertical-align: text-bottom; }
+
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+
+legend { color: #000; }
+fieldset, img { border: 0 none; }
+img{vertical-align:top;}
+table { border-collapse: collapse; border-spacing: 0; }
+
+input,button,textarea,select{*font-size:100%;}
+
+article, aside, dialog, figure, footer, header,
+hgroup, nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+article, aside, dialog, figure, footer, header,
+hgroup, nav, section {
+    display:block;
+}
+a{color:#333333}
+.clearfix:after{clear:both;display:block;visibility:hidden;height:0;line-height:0;content:"";}/*利用伪类清楚浮动*/
+.clearfix{zoom:1;}

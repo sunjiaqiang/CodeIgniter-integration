@@ -21,7 +21,7 @@ class Admin_Adminuser_model extends CI_Model{
      * @param array $data
      */
     public function login(array $data = []){
-        $user_row = $this->get_row(['name'=>$data['username'],'password'=>md5($data['password'])]);
+        $user_row = $this->get_row(['name'=>$data['username'],'password'=>md5($data['password']),'is_open'=>1]);
         return $user_row;
     }
 
@@ -81,5 +81,32 @@ class Admin_Adminuser_model extends CI_Model{
             $data[] = $row;
         }
         return $data;
+    }
+
+    /**
+     * 新增数据
+     * @param array $data
+     */
+    public function add_row($data = []){
+        $result = $this->db->insert($this->table_admin_user,$data);
+        if (false !== $result){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 删除用户
+     * @param array $where
+     */
+    public function remove_row($where=[]){
+        if ( ! empty($where) && is_array($where)){
+            return $this->db->delete($this->table_admin_user,$where);
+        }elseif(is_string($where)){
+            $this->db->where($where,null,false);
+            return $this->db->delete($this->table_admin_user);
+        }
+        return false;
     }
 }

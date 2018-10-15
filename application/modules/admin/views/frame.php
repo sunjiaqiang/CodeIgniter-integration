@@ -2,6 +2,7 @@
 <!doctype html>
 <html>
 <head>
+<base href="<?=site_url('');?>">
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -121,7 +122,7 @@ if (window.top !== window.self) {
                         </ul>
                     </div>-->
             <div  style="float: right;">
-              <div class="phone-box" style="float:left;  font-size: 20px; margin-top: 22px; margin-right: 60px; color: #fff;"><i style="padding-right: 8px;" class="fa fa-phone"></i>400-835-5166</div>
+              <div class="phone-box" style="float:left;  font-size: 20px; margin-top: 22px; margin-right: 60px; color: #fff;"><i style="padding-right: 8px;" class="fa fa-phone"></i>888-888-8888</div>
               <div class="header">
                 <ul class="tools">
                   <li> <a href="<?php echo site_url('admin/index?redirect=buyer/profile/index');?>"> <i class="fa fa-user" aria-hidden="true"></i> <span >个人中心</span> </a> </li>
@@ -150,9 +151,9 @@ if (window.top !== window.self) {
       </tr>
       <tr class="content">
         <th style="overflow:hidden;"> <div class="B_menutop cl">
-            <div class="adminavatar"> <img src="<?=STATIC_PATH;?>b2b_index/images/nophoto.jpg" onerror="this.error=null;this.src='<?=STATIC_PATH;?>b2b_index/images/nophoto.jpg'" /> </div>
-            <div class="admininfo"> <a>姓名</a>
-              <div>手机号</div>
+            <div class="adminavatar"> <img src="<?=$this->session->avatar;?>" onerror="this.error=null;this.src='<?=STATIC_PATH;?>b2b_index/images/nophoto.jpg'" /> </div>
+            <div class="admininfo"> <a><?=$this->session->admin_user_name;?></a>
+              <div><?=$this->session->email;?></div>
             </div>
           </div>
           <div id="B_menunav">

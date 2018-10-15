@@ -186,7 +186,7 @@ button.aui_state_highlight:active {
 	text-align:center;
     overflow: hidden;
     text-indent: -9999px;
-    background: url("../../../../b2bclient/images/sk_xxx.jpg") no-repeat scroll 0 0 transparent;
+    background: url("../../../b2b_index/images/sk_xxx.jpg") no-repeat scroll 0 0 transparent;
 }
 .aui_close:hover {
     /*background-position: 0 -20px;*/

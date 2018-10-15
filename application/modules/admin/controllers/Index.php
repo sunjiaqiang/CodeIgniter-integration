@@ -90,13 +90,16 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 //获取用户角色信息
                 $role_info = $this->Adminrole_model->get_role_row(['id'=>$user_row['role_id']]);
                 if (empty($role_info) || $role_info['status'] == 0){
-                    $this->error("您所属的角色不存在或已禁用",site_url(''), 3);
+                    $this->error("您所在的用户组不存在或已禁用",site_url(''), 3);
                 }
                 if (trim($role_info['name']) == "超级管理员"){
                     $access_list = 'ALL';
                 }else{
                     //查询角色所有权限
                     $access = $this->Adminrole_model->get_role_access(['role_id'=>$user_row['role_id']]);
+                    if (empty($access)){
+                        $this->error("您所在的用户组未分配权限",site_url(''), 3);
+                    }
                     $access_list = [];
                     foreach ($access as $key=>$val){
                         $access_list[] = $val['app'].'/'.$val['controller'].'/'.$val['action'];
@@ -119,13 +122,15 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                     'authority' => $user_row['authority'],
                     'last_login_time' => $user_row['last_login_time'],
                     'is_open' => $user_row['is_open'],
+                    'email'=>$user_row['email'],
+                    'avatar'=>$user_row['avatar'],
                     '_ACCESS_LIST' => $access_list//权限信息，用于登录后分配后台操作菜单
                 );
                 $this->Adminuser_model->edit_row(['id'=>$user_row['id']],$update_data);
                 $this->session->set_userdata($newdata);
                 redirect(site_url('admin/index/index'));
             }else{
-                $this->error("用户名或者密码错误，登陆失败！",site_url('admin/index/login'), 3);
+                $this->error("用户名或者密码错误或者账户被禁，登陆失败！",site_url('admin/index/login'), 3);
             }
         }
 

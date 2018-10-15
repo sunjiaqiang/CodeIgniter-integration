@@ -1263,7 +1263,7 @@ input[type=checkbox]{ position:relative; top:3px; margin:0 4px;}
 .line-day-info .action-day-add-route{ font-size:24px; color:#4bba46; cursor: pointer; position:relative; top:1px;}
 .line-day-info .action-day-del-route{ font-size:20px; color:#f69434; cursor: pointer; position:relative; top:1px;}
 .line-day-info .target-block{ display:inline-block; margin-right:5px; margin-bottom:2px;}
-.admin-wrap select{ padding:5px; margin:0; border: solid 1px #ddd;}
+/*.admin-wrap select{ padding:5px; margin:0; border: solid 1px #ddd;}*/
 .pos-wrap{ position:relative;}
 .pos-wrap .pos-abo{ position:absolute; right:0; top:-1px; font-size:11px; line-height:18px;height: 18px; padding:0 3px;}
 #applyforle { padding:10px 20px; line-height:30px;}

@@ -1,10 +1,10 @@
 <!doctype html>
 <html>
 <head>
-    <title>增加线路</title>
-    <?php $this->load->module('admin/index/page_header');?>
-    <link rel="stylesheet" href="<?=STATIC_PATH;?>b2b_index/css/buyer_style.css">
-    <style type="text/css">
+<title>增加线路</title>
+<?php $this->load->module('admin/index/page_header');?>
+<link rel="stylesheet" href="<?=STATIC_PATH;?>b2b_index/css/buyer_style.css">
+<style type="text/css">
         body{
             position: relative;
         }
@@ -80,93 +80,47 @@
     </style>
 </head>
 <body>
-
-
 <div class="main mt20 clearfix">
-    <div class="container">
-
-        <div class="" style="color: #4d4d4d;margin-bottom: 20px;">
-            系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?php echo site_url('buyer/user/index'); ?>">用户管理</a></span>
-        </div>
-
-<div class="content-wrap">
-    <div class="choose-tab">
-        <a class="item cur">用户管理</a><a href="<?php echo site_url('buyer/user/edit')?>" class="green-btn fr action-add-user accesscheck" data-accessurl="10902">创建用户</a>
-    </div>
-    <div class="admin-wrap">
+  <div class="container">
+    <div class="" style="color: #4d4d4d;margin-bottom: 20px;"> 系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?php echo site_url('buyer/user/index'); ?>">用户管理</a></span> </div>
+    <div class="content-wrap">
+      <div class="choose-tab"> <a class="item cur">用户管理</a><a href="<?php echo site_url('buyer/user/edit')?>" class="green-btn fr action-add-user accesscheck" data-accessurl="10902">创建用户</a> </div>
+      <div class="admin-wrap">
         <table class="table-v1 table-default-skin mt10">
-            <tbody><tr align="center">
-                <td class="head first" width="90">用户名</td>
-                <td class="head" width="60">真实姓名</td>
-                <td class="head" width="40">状态</td>
-                <td class="head">管理类型</td>
-                <td class="head" width="120">添加时间</td>
-                <td class="head last" width="100">操作</td>
+          <tbody>
+            <tr align="center">
+              <td class="head first" width="90">用户名</td>
+              <td class="head" width="60">真实姓名</td>
+              <td class="head" width="40">状态</td>
+              <td class="head">管理类型</td>
+              <td class="head" width="120">添加时间</td>
+              <td class="head last" width="100">操作</td>
             </tr>
-
             <?php foreach($list as $val):?>
-                <tr align="center">
-                    <td><?php echo $val['name'];?></td>
-                    <td><?php echo $val['realname'];?></td>
-                    <td><?php echo $val['is_open']?  '正常' : '<span style="color:orangered;">停止</span>';?></td>
-                    <td><?php echo $val['role_name']?></td>
-
-                    <td><?php echo $val['add_time']?></td>
-                    <td>
-                        <a href="<?php echo site_url('buyer/user/edit/?id='.$val['id'])?>" class="button-small button-bg-lightblue button-font-black edit-pay-info accesscheck">编辑</a>
-                        <a  onClick="submit_tools({id:<?php echo $val['id']?>,action:'<?php echo site_url('admin/adminuser/ajax_remove');?>',msg:'确定要删除该信息么?'})" class="button-small button-bg-lightorange button-font-orange accesscheck">删除</a>
-                    </td>
-                </tr>
+            <tr align="center">
+              <td><?php echo $val['name'];?></td>
+              <td><?php echo $val['realname'];?></td>
+              <td><?php echo $val['is_open']?  '正常' : '<span style="color:orangered;">停止</span>';?></td>
+              <td><?php echo $val['role_name']?></td>
+              <td><?php echo $val['add_time']?></td>
+              <td><a href="<?php echo site_url('buyer/user/edit?id='.$val['id'])?>" class="button-small button-bg-lightblue button-font-black edit-pay-info accesscheck">编辑</a>
+                <?php if ( ! $val['is_founder']):?>
+                <a  class="button-small button-bg-lightorange button-font-orange accesscheck doDel" data-uri="<?=site_url('buyer/user/ajax_remove?id='.$val['id'])?>">删除</a>
+                <?php endif;?>
+              </td>
+            </tr>
             <?php endforeach;?>
-            </tbody></table>
+          </tbody>
+        </table>
         <div class="mt20">
-
-            <div class="page_nav">
-               <?php echo $this->mypage->show();?>
-            </div>
+          <div class="page_nav"> <?php echo $this->mypage->show();?> </div>
         </div>
+      </div>
     </div>
-</div>
-
-
-    </div>
-
+  </div>
 </div>
 <script>
-    function submit_tools(obj){
-        if(confirm(obj["msg"])){
-            $.ajax({
-                url:obj['action'],
-                cache:false,
-                dataType:'json',
-                type:'POST',
-                data:{id:obj['id']},
-                success:function(msgObj){
-                    if(msgObj.status==1){
-                        window.location.href=window.location.href;
-                    }else{
-                        alert(msgObj.info);
-                    }
-                    return false;
-                }
-            });
-        }
-    }
-    
-    $(".sync-user").click(function () {
-        var that = this;
-        $.get(that.href,{},function (data) {
-            data = JSON.parse(data);
-            if(data.status == 'ok') {
-
-                layer.msg("创建成功");
-            } else {
-                layer.msg(data.info);
-            }
-        });
-
-        return false;
-    });
-    
 </script>
 <?php $this->load->module('admin/index/page_footer');?>
+</body>
+</html>

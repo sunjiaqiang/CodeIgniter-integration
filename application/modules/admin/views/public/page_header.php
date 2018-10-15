@@ -3,6 +3,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <link href="<?php echo STATIC_PATH;?>b2b_index/css/admin_full.css" rel="stylesheet" />
 <script type="text/javascript" src="<?php echo STATIC_PATH;?>js/jquery/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="<?php echo STATIC_PATH;?>b2b_index/js/common.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_PATH;?>js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_PATH;?>lib/validate/jquery.validate.1.9.js"></script>
 <script type="text/javascript" src="<?php echo STATIC_PATH;?>lib/validate/jquery.metadata.js"></script>
