@@ -154,6 +154,148 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $this->session->sess_destroy();
             $this->success('注销成功！', site_url('admin/index/login'), 2);
         }
+
+        /**
+         * 后台权限菜单管理
+         */
+        public function adminmenu(){
+            $this->load->library('mytreeclass');
+            $list = $this->Menu_model->get_list(['pingtai'=>2]);
+            $res = [];
+            foreach($list as $key=>$val){
+                if($val['parent_id']==0){
+                    $res[$key] = $val;
+                    $res[$key]['list'] =array();
+                    unset($list[$key]);
+                    foreach($list as $k1=>$v1){
+                        if($v1['parent_id']==$val['id']){
+                            $res[$key]['list'][$k1]=$v1;
+                            $res[$key]['list'][$k1]['list'] = array();
+                            unset($list[$k1]);
+                            foreach($list as $k2=>$v2){
+                                if($v2['parent_id']==$v1['id']){
+                                    array_push($res[$key]['list'][$k1]['list'], $v2);
+                                    unset($list[$k2]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $data['res'] = $res;//print_r($data['res']);
+            $this->load->view('adminmenu/adminmenu_index',$data);
+        }
+
+        /**
+         * 添加菜单
+         */
+        public function adminmenu_add(){
+            //引入树形类
+            $this->load->library('mytreeclass');
+            $parent_id = 0;
+            $result = $this->Menu_model->get_list(['pingtai'=>2]);
+            $array = array();
+            foreach($result as $r){
+                $r['selected'] = $r['id']==$parent_id ? 'selected':'';
+                $array[] = $r;
+            }
+            $this->mytreeclass->init($array);
+            $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
+            $select_categorys = $this->mytreeclass->get_tree(0, $str);
+            $data['select_categorys'] = $select_categorys;
+            //数据保存URL
+            $data['form_post'] = site_url('admin/index/adminmenu_save');
+            $this->load->view('adminmenu/adminmenu_add',$data);
+        }
+
+        /**
+         * 修改菜单
+         */
+        public function adminmenu_edit(){
+            $id = $this->input->get('id');
+            //引入树形类
+            $this->load->library('mytreeclass');
+            $row = $this->Menu_model->get_row(['id'=>$id]);
+            $parent_id = $row['parent_id'];
+            $result = $this->Menu_model->get_list(['pingtai'=>2]);
+            $array = [];
+            foreach($result as $r){
+                $r['selected'] = $r['id']==$parent_id ? 'selected':'';
+                $array[] = $r;
+            }
+            $this->mytreeclass->init($array);
+            $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
+            $select_categorys = $this->mytreeclass->get_tree(0, $str);
+            $data['select_categorys'] = $select_categorys;
+            $data['row'] = $row;
+            //数据保存URL
+            $data['form_post'] = site_url('admin/index/adminmenu_save');
+            $this->load->view('adminmenu/adminmenu_edit',$data);
+        }
+
+        /**
+         * 保存菜单数据
+         */
+        public function adminmenu_save(){
+            $data = $this->input->post('Form');
+            $id = $this->input->post('id');
+            if(empty($id)){
+                $data['pingtai'] = 2;
+                $res = $this->Menu_model->add_row($data);
+            }else{
+                $res = $this->Menu_model->edit_row(['id'=>$id],$data);
+            }
+            if($res){
+                $this->success('操作成功',site_url('admin/index/adminmenu'),true);
+            }else{
+                $this->error('操作失败',site_url('dmin/index/adminmenu'),true);
+            }
+        }
+        /**
+         * 异步删除菜单
+         */
+        public function ajax_remove_adminmenu(){
+            $id = $this->input->get('id');
+            //判断是否有子菜单
+            $is_has_child = $this->Menu_model->is_has_child($id);
+            if($is_has_child){
+                $this->error('该菜单存在子菜单,请先删除其子菜单!','',true);
+            }
+            $res = $this->Menu_model->remove_row(['id'=>$id]);
+            if($res){
+                $this->success('操作成功','',true);
+            }else{
+                $this->error('操作失败','',true);
+            }
+        }
+
+        /**
+         * 异步修改菜单状态
+         */
+        public function ajax_menu_status(){
+            $post = $this->input->post();
+            $data[$post['field']] = $post['val'];
+            $res = $this->Menu_model->edit_row(['id'=>$post['id']],$data);
+            if($res){
+                $this->success('操作成功','',true);
+            }else{
+                $this->error('操作失败','',true);
+            }
+        }
+        /**
+         *
+         * 修改状态信息
+         */
+         public function edit_sort(){
+            $id = $this->input->get_post('id');
+            $sort_order = $this->input->get_post('sort_order');
+            $res = $this->Menu_model->edit_row(['id'=>$id],['sort_order'=>$sort_order]);
+            if($res){
+                echo 1;exit;
+            }else{
+                echo 0;exit;
+            }
+        }
         public function datan(){
             echo "后台";
         }

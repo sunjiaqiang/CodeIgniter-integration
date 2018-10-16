@@ -95,4 +95,63 @@ class Admin_Menu_model extends CI_Model{
         }
         return $arr;
     }
+    /**
+     * 获取单条记录
+     * @param array $where
+     * @param string $field
+     * @return mixed
+     */
+    public function get_row($where=[],$field='*'){
+        if(!empty($field))$this->db->select($field);
+        $query = $this->db->get_where($this->table_menu,$where,1);
+        return $query->row_array();
+    }
+    /**
+     * 添加数据
+     * @param $data
+     * @return bool
+     */
+    public function add_row($data=[]){
+        if($this->db->insert($this->table_menu,$data)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 更新数据
+     * @param array $where
+     * @param array $data
+     */
+    public function edit_row($where=[],$data=[]){
+        $this->db->where($where,null,false);
+        return $this->db->update($this->table_menu,$data);
+    }
+    /**
+     * 查询该分类是否有子分类
+     * @param $parent_id
+     * @return bool
+     */
+    public function is_has_child($parent_id){
+        $this->db->select('id');
+        $query = $this->db->get_where($this->table_menu,['parent_id'=>$parent_id],1);
+        $row = $query->row_array();
+        if(isset($row['id'])&&$row['id']){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+     * 删除数据
+     * @param array $where
+     * @return bool
+     */
+    public function remove_row($where=[]){
+        if(!empty($where)){
+            return $this->db->delete($this->table,$where);
+        }
+        return false;
+    }
 }

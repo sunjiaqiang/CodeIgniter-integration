@@ -1,5 +1,6 @@
 $(document).ready(function(){
     doAjaxDel();
+    initOperat()
     //分页控制
     $('.pgselect').change(function(){
         var page = $(this).val();
@@ -46,6 +47,37 @@ $(document).ready(function(){
     });
 
 })
+
+
+/**
+ * 操作按钮处理
+ */
+function initOperat(){
+    $(".operat").each(function(){
+        var operat = $(this);
+        operat.find(".action").on("mouseenter DOMNodeInserted",function(){
+            operat.removeClass("hidden").addClass("show_munu");
+            var offset = operat.offset();
+            var height = operat.find(".action").height();
+            var action_width = operat.find(".action").outerWidth();
+            var menu_select_width = operat.find(".menu_select").outerWidth();
+
+            if(offset.top+operat.find(".menu_select").height()+height < $(window).height()){
+                if(offset.left+menu_select_width< $(window).outerWidth()) operat.find(".menu_select").offset({left:offset.left,top:(Math.floor(offset.top)+1+height)});
+                else operat.find(".menu_select").offset({left:(offset.left+action_width-menu_select_width),top:(Math.floor(offset.top)+1+height)});
+                operat.find(".action").removeClass("top").addClass("bottom");
+            }else{
+                if(offset.left+menu_select_width< $(window).outerWidth()) operat.find(".menu_select").offset({left:offset.left,top:Math.ceil(offset.top)-1-operat.find(".menu_select").height()});
+                else operat.find(".menu_select").offset({left:(offset.left+action_width-menu_select_width),top:Math.ceil(offset.top)-1-operat.find(".menu_select").height()});
+                operat.find(".action").removeClass("bottom").addClass("top");
+            }
+
+        });
+        operat.on("mouseleave",function(){
+            operat.removeClass("show_munu").addClass("hidden");
+        })
+    })
+}
 
 /**
  * ajax删除操作
