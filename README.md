@@ -58,7 +58,11 @@
 <img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.jpg">
 
 角色管理	
-<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.jpg">
+<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E8%A7%92%E8%89%B2%E7%AE%A1%E7%90%86.jpg">
+
+角色授权
+<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E8%A7%92%E8%89%B2%E6%8E%88%E6%9D%83.jpg">
+
 
 # 相关库说明
 阿里云和七牛云等这些库使用composer自动加载,使用阿里云和七牛云需要到对应官网按照教程申请好相关key和秘钥，然后将项目里面的配置文件配置完毕即可使用。
