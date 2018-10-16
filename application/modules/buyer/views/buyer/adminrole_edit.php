@@ -25,7 +25,7 @@
 			</div>
 			<form method="post" class="iframe-input-checkform">
 				<div class="check-input mr15 fr">
-					<a href="<?php echo site_url('admin/adminrole/index')?>" class="button-middle-v2 button-bg-yellow button-font-white"> 角色列表 </a>
+					<a href="<?php echo site_url('buyer/role/index')?>" class="button-middle-v2 button-bg-yellow button-font-white"> 角色列表 </a>
 				</div>
 			</form>
     <div class="table_full">

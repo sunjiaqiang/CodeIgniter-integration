@@ -12,6 +12,7 @@ class Buyer_Role_module extends CI_Module{
         parent::__construct();
         $this->load->model('admin.Adminuser_model');
         $this->load->model('admin.Adminrole_model');
+        $this->load->model('admin.Menu_model');
     }
 
     /**
@@ -102,6 +103,85 @@ class Buyer_Role_module extends CI_Module{
             $this->ajaxReturn('此管理员角色名称已存在!');
         }else{
             $this->ajaxReturn(true);
+        }
+    }
+
+    /**
+     * 角色授权
+     */
+    public function set_authority(){
+        $role_id = $this->input->get('id');
+        if(empty($role_id)){
+            $this->error('需要授权的角色不存在!',site_url('buyer/role/index'),1);
+        }
+        //菜单数据
+        $result = $this->Menu_model->get_list('pingtai=2 AND status=1');
+        //获取此角色的权限
+        $priv_data = $this->Adminrole_model->get_access_list('role_id='.$role_id);
+        $access_arr=[];
+        if ($priv_data){
+            foreach ($priv_data as $key=>$val){
+                $access_arr[]=$val['app'].'/'.$val['controller'].'/'.$val['action'];
+            }
+        }
+//        p($access_arr);
+        foreach ($result as $rs) {
+            $url = $rs['app'].'/'.$rs['controller'].'/'.$rs['action'];
+            $data = [
+                'id' => $rs['id'],
+                'parent_id' => $rs['parent_id'],
+                'name' => $rs['name'] . ($rs['type'] == 0 ? "(菜单项)" : ""),
+                'checked' => (in_array($url,$access_arr)) ? true : false,//判断此菜单是否已授权
+                'open' => true,
+            ];
+            $json[] = $data;
+        }
+
+        $data['json'] = json_encode($json);
+        $data['role_id'] = $role_id;
+        $data['form_post'] = site_url('buyer/role/save_authority');
+        $this->load->view('buyer/adminrole_authority',$data);
+    }
+
+    /**
+     * 保存权限
+     */
+    public function save_authority(){
+        $arg_post = $this->input->post();
+        $role_id = $arg_post['role_id'];
+        if(empty($arg_post['menu_id'])){
+            $this->error('请至少选择一个权限！','',true);
+        }
+        $menuidAll = explode(',', $arg_post['menu_id']);
+        if (is_array($menuidAll) && count($menuidAll) > 0) {
+            //菜单数据
+            $menu_info = $this->Menu_model->get_list(['pingtai'=>2]);
+            $menu_info = array_column($menu_info,null,'id');
+            $addauthorize = [];
+            //检测数据合法性
+            foreach ($menuidAll as $menuid) {
+                if (empty($menu_info[$menuid])) {
+                    continue;
+                }
+                $info = [
+                    'app' => $menu_info[$menuid]['app'],
+                    'controller' => $menu_info[$menuid]['controller'],
+                    'action' => $menu_info[$menuid]['action'],
+                ];
+                $info['role_id'] = $role_id;
+                $info['sid'] = 100002;
+                $addauthorize[] = $info;
+            }
+
+            //添加新权限
+            $res = $this->Adminrole_model->add_role_access($role_id,$addauthorize);
+            if($res){
+                $this->success('授权成功！',site_url('buyer/role/index'),true);
+            }else{
+                $this->error('授权失败！',site_url('buyer/role/index'),true);
+            }
+        }else{
+            $this->error("没有接收到数据，执行清除授权成功！",site_url('admin/adminrole/index'),true);
         }
     }
 }

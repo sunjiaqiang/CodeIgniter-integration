@@ -114,4 +114,28 @@ class Admin_Adminrole_model extends CI_Model{
         $query = $this->db->get_where($this->table_role,$where,1);
         return $query->row_array();
     }
+
+    /**
+     * 根据条件获取角色权限
+     * @param string $where
+     */
+    public function get_access_list($where=''){
+        $sql = "SELECT role_id,app,controller,action FROM $this->table_role_access";
+        $where ? $sql .= " WHERE $where" : '';
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
+    }
+    /**
+     * 添加多条数据
+     * @param int $role_id 角色ID
+     * @param $data
+     */
+    public function add_role_access($role_id,$data){
+        //删除旧的数据
+        $this->db->where(['role_id'=>$role_id],null,false);
+        $this->db->delete($this->table_role_access);
+        //添加信息的数据
+        return $this->db->insert_batch($this->table_role_access,$data);
+    }
 }
