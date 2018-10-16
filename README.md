@@ -50,9 +50,16 @@
 # 基于角色的权限管理
 17.RBAC权限管理，目前功能为：后台菜单全动态，权限只控制到菜单级后期会把权限控制到方法级，测试账号(管理员：蜡笔小新 密码：123456，普通用户：李力2 密码：123456)。
 相关界面预览：
-后台登录
 
-	
+后台登录
+<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E5%90%8E%E5%8F%B0%E7%99%BB%E9%99%86.jpg">
+
+用户管理
+<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.jpg">
+
+角色管理	
+<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.jpg">
+
 # 相关库说明
 阿里云和七牛云等这些库使用composer自动加载,使用阿里云和七牛云需要到对应官网按照教程申请好相关key和秘钥，然后将项目里面的配置文件配置完毕即可使用。
 第7点ajax无刷新分页使用了自定义的分页类，url传参及分页样式自定义输出都是非常方便的，另外我对此分页类也写了一篇文章<a href="https://www.cnblogs.com/phproom/p/9588656.html" target="_blank">PHP+Mysql实现分页</a>和此分页功能类似。
