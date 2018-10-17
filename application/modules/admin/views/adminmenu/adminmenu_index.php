@@ -9,10 +9,10 @@
 <body>
 <div class="wrap J_check_wrap">
   <div class="nav">
-      <ul>
-          <li class="current"><a href="<?php echo site_url('admin/index/adminmenu')?>">菜单管理</a></li>
-          <li><a href="<?php echo site_url('admin/index/adminmenu_add')?>">添加菜单</a></li>
-      </ul>
+    <ul>
+      <li class="current"><a href="<?php echo site_url('admin/index/adminmenu')?>">菜单管理</a></li>
+      <li><a href="<?php echo site_url('admin/index/adminmenu_add')?>">添加菜单</a></li>
+    </ul>
   </div>
   <form method="post" action="">
     <div class="table_list" id="content">
@@ -26,68 +26,55 @@
             <td>菜单状态</td>
           </tr>
         </thead>
-
         <tbody>
           <?php foreach($res as $k=>$v):?>
-            <tr>
-              <td class="btn_min">
-                    <div class="operat hidden">
-                        <a class="icon-cog action" href="javascript:;">处理</a>
-                        <div class="menu_select">
-                            <ul>
-                                <li><a class="icon-pencil" href="<?php echo site_url('admin/index/adminmenu_edit?id='.$v['id']) ?>">编辑</a></li>
-                                <li><a class="icon-remove-2 doDel" href="javascript:;" data-uri="<?php echo site_url('admin/index/ajax_remove_adminmenu?id='.$v['id'])?>">删除</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-              <td onclick="zhankai(<?php echo $v['id']?>)"><?php echo $v['name'];?></td>
-              <td><input type="text" class="sort" value="<?php echo $v['sort_order']?>" alt="<?php echo $v['id']?>" size="5" onchange="edit_sort(this)" ></td>
-              <td><?php echo $v['app'].'/'.$v['controller'].'/'.$v['action']?></td>
-              <td><img class="pointer" data-id="<?php echo $v['id']?>" style="cursor: pointer;" data-field="status" data-value="<?php echo $v['status']?>" src="<?php echo STATIC_PATH.'b2b_index/images/icons/icon_'.$v['status'].'.png'?>" /></td>
-            </tr>
-            <?php foreach($v['list'] as $k1=>$v1):?>
-              <tr style="display: none" class="level_<?php echo $v['id']?>">
-                <td class="btn_min">
-                  <div class="operat hidden">
-                    <a class="icon-cog action" href="javascript:;">处理</a>
-                    <div class="menu_select">
-                      <ul>
-                        <li><a class="icon-pencil" href="<?php echo site_url('admin/index/adminmenu_edit?id='.$v1['id']) ?>">编辑</a></li>
-                        <li><a class="icon-remove-2 doDel" href="javascript:;" data-uri="<?php echo site_url('admin/index/ajax_remove_adminmenu?id='.$v1['id'])?>">删除</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </td>
-                <td onclick="zhankai2(<?php echo $v1['id']?>)">&nbsp;&nbsp;&nbsp;&nbsp;├─ <?php echo $v1['name'];?></td>
-                <td><input type="text" class="sort" value="<?php echo $v1['sort_order']?>" alt="<?php echo $v1['id']?>" size="5" onchange="edit_sort(this)"></td>
-                <td><?php echo $v1['app'].'/'.$v1['controller'].'/'.$v1['action']?></td>
-                <td><img class="pointer" data-id="<?php echo $v1['id']?>" style="cursor: pointer;" data-field="status" data-value="<?php echo $v1['status']?>" src="<?php echo STATIC_PATH.'b2b_index/images/icons/icon_'.$v1['status'].'.png'?>" /></td>
-              </tr>
-              <?php foreach($v1['list'] as $k2=>$v2):?>
-                <tr style="display: none" class="level_<?php echo $v['id']?> leveo_<?php echo $v['id']?> level_<?php echo $v1['id']?>">
-                  <td class="btn_min">
-                    <div class="operat hidden">
-                      <a class="icon-cog action" href="javascript:;">处理</a>
-                      <div class="menu_select">
-                        <ul>
-                          <li><a class="icon-pencil" href="<?php echo site_url('admin/index/adminmenu_edit?id='.$v2['id']) ?>">编辑</a></li>
-                          <li><a class="icon-remove-2 doDel" href="javascript:;" data-uri="<?php echo site_url('admin/index/ajax_remove_adminmenu?id='.$v2['id'])?>">删除</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </td>
-                  <td>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─ <?php echo $v2['name'];?></td>
-                  <td><input type="text" class="sort" value="<?php echo $v2['sort_order']?>" alt="<?php echo $v2['id']?>" size="5" onchange="edit_sort(this)"></td>
-                  <td><?php echo $v2['app'].'/'.$v2['controller'].'/'.$v2['action']?></td>
-                  <td><img class="pointer" data-id="<?php echo $v2['id']?>" style="cursor: pointer;" data-field="status" data-value="<?php echo $v2['status']?>" src="<?php echo STATIC_PATH.'b2b_index/images/icons/icon_'.$v2['status'].'.png'?>" /></td>
-                </tr>
-              <?php endforeach;?>
-            <?php endforeach;?>
+          <tr>
+            <td class="btn_min"><div class="operat hidden"> <a class="icon-cog action" href="javascript:;">处理</a>
+                <div class="menu_select">
+                  <ul>
+                    <li><a class="icon-pencil" href="<?php echo site_url('admin/index/adminmenu_edit?id='.$v['id']) ?>">编辑</a></li>
+                    <li><a class="icon-remove-2 doDel" href="javascript:;" data-uri="<?php echo site_url('admin/index/ajax_remove_adminmenu?id='.$v['id'])?>">删除</a></li>
+                  </ul>
+                </div>
+              </div></td>
+            <td onClick="zhankai(<?php echo $v['id']?>)"><?php echo $v['name'];?></td>
+            <td><input type="text" class="sort" value="<?php echo $v['sort_order']?>" alt="<?php echo $v['id']?>" size="5" onChange="edit_sort(this)" ></td>
+            <td><?php echo $v['app'].'/'.$v['controller'].'/'.$v['action']?></td>
+            <td><img class="pointer" data-id="<?php echo $v['id']?>" style="cursor: pointer;" data-field="status" data-value="<?php echo $v['status']?>" src="<?php echo STATIC_PATH.'b2b_index/images/icons/icon_'.$v['status'].'.png'?>" /></td>
+          </tr>
+          <?php foreach($v['list'] as $k1=>$v1):?>
+          <tr style="display: none" class="level_<?php echo $v['id']?>">
+            <td class="btn_min"><div class="operat hidden"> <a class="icon-cog action" href="javascript:;">处理</a>
+                <div class="menu_select">
+                  <ul>
+                    <li><a class="icon-pencil" href="<?php echo site_url('admin/index/adminmenu_edit?id='.$v1['id']) ?>">编辑</a></li>
+                    <li><a class="icon-remove-2 doDel" href="javascript:;" data-uri="<?php echo site_url('admin/index/ajax_remove_adminmenu?id='.$v1['id'])?>">删除</a></li>
+                  </ul>
+                </div>
+              </div></td>
+            <td onClick="zhankai2(<?php echo $v1['id']?>)">&nbsp;&nbsp;&nbsp;&nbsp;├─ <?php echo $v1['name'];?></td>
+            <td><input type="text" class="sort" value="<?php echo $v1['sort_order']?>" alt="<?php echo $v1['id']?>" size="5" onChange="edit_sort(this)"></td>
+            <td><?php echo $v1['app'].'/'.$v1['controller'].'/'.$v1['action']?></td>
+            <td><img class="pointer" data-id="<?php echo $v1['id']?>" style="cursor: pointer;" data-field="status" data-value="<?php echo $v1['status']?>" src="<?php echo STATIC_PATH.'b2b_index/images/icons/icon_'.$v1['status'].'.png'?>" /></td>
+          </tr>
+          <?php foreach($v1['list'] as $k2=>$v2):?>
+          <tr style="display: none" class="level_<?php echo $v['id']?> leveo_<?php echo $v['id']?> level_<?php echo $v1['id']?>">
+            <td class="btn_min"><div class="operat hidden"> <a class="icon-cog action" href="javascript:;">处理</a>
+                <div class="menu_select">
+                  <ul>
+                    <li><a class="icon-pencil" href="<?php echo site_url('admin/index/adminmenu_edit?id='.$v2['id']) ?>">编辑</a></li>
+                    <li><a class="icon-remove-2 doDel" href="javascript:;" data-uri="<?php echo site_url('admin/index/ajax_remove_adminmenu?id='.$v2['id'])?>">删除</a></li>
+                  </ul>
+                </div>
+              </div></td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─ <?php echo $v2['name'];?></td>
+            <td><input type="text" class="sort" value="<?php echo $v2['sort_order']?>" alt="<?php echo $v2['id']?>" size="5" onChange="edit_sort(this)"></td>
+            <td><?php echo $v2['app'].'/'.$v2['controller'].'/'.$v2['action']?></td>
+            <td><img class="pointer" data-id="<?php echo $v2['id']?>" style="cursor: pointer;" data-field="status" data-value="<?php echo $v2['status']?>" src="<?php echo STATIC_PATH.'b2b_index/images/icons/icon_'.$v2['status'].'.png'?>" /></td>
+          </tr>
           <?php endforeach;?>
-
-
-
+          <?php endforeach;?>
+          <?php endforeach;?>
         </tbody>
       </table>
     </div>
