@@ -65,6 +65,8 @@ class CI_Module {
 
 		log_message('debug', "$class_name Module Class Initialized");
 	}
+
+    //下面的方法是官方的hmvc扩展上自己扩展的提示信息方法
     /**
      * 操作错误跳转的快捷方法
      * @access protected

@@ -184,4 +184,26 @@ class Buyer_Role_module extends CI_Module{
             $this->error("没有接收到数据，执行清除授权成功！",site_url('admin/adminrole/index'),true);
         }
     }
+
+    /**
+     * 异步删除角色
+     */
+    public function ajax_remove(){
+        $id = $this->input->get('id');
+        $row = $this->Adminuser_model->get_row(['role_id'=>$id]);//检查该角色下面是否有人员
+        if( ! empty($row)){
+            $this->error('该角色下面有管理员，不能删除','',true);
+        }
+        $role_info = $this->Adminrole_model->get_row(['id'=>$id]);
+        if($role_info['name'] == '超级管理员'){
+            $this->error('不能删除超级管理员','',true);
+        }
+        $res = $this->Adminrole_model->remove_row(['id'=>$id]);
+        if($res){
+            $this->Adminrole_model->remove_role_access(['role_id'=>$id]);
+            $this->success('操作成功',site_url('buyer/role/index'),true);
+        }else{
+            $this->error('操作失败','',true);
+        }
+    }
 }

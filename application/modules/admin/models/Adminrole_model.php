@@ -138,4 +138,21 @@ class Admin_Adminrole_model extends CI_Model{
         //添加信息的数据
         return $this->db->insert_batch($this->table_role_access,$data);
     }
+    /**
+     * 删除数据
+     * @param string $where 删除条件
+     */
+    public function remove_row($where=''){
+        if(!empty($where))$this->db->where($where, NULL, FALSE);
+        return $this->db->delete($this->table_role);
+    }
+
+    /**
+     * 删除角色权限
+     * @param string $where
+     */
+    public function remove_role_access($where=''){
+        if(!empty($where))$this->db->where($where, NULL, FALSE);
+        return $this->db->delete($this->table_role_access);
+    }
 }
