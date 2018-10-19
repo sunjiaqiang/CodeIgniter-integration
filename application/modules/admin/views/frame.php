@@ -104,7 +104,7 @@ if (window.top !== window.self) {
                 <img class="my1logo" src="<?php /*echo $sitelogo */?>" onerror="this.error=null;this.src='<?php /*echo URLPRE;*/?>static/public/images/nologo.jpg'" alt="管理中心"/>
                 </div>-->
         </th>
-        <td><div class="doahead cc"> <a href="<?php echo site_url('admin/index')?>" class="logo">此处是LOGO
+        <td><div class="doahead cc"> <a href="<?=site_url('admin/index')?>" class="logo">此处是LOGO
             <!--                        <img src="-->
             <?//=STATIC_PATH;?>
             <!--b2b_index/images/logo.png">-->
@@ -125,8 +125,8 @@ if (window.top !== window.self) {
               <div class="phone-box" style="float:left;  font-size: 20px; margin-top: 22px; margin-right: 60px; color: #fff;"><i style="padding-right: 8px;" class="fa fa-phone"></i>888-888-8888</div>
               <div class="header">
                 <ul class="tools">
-                  <li> <a href="<?php echo site_url('admin/index?redirect=buyer/profile/index');?>"> <i class="fa fa-user" aria-hidden="true"></i> <span >个人中心</span> </a> </li>
-                  <li> <a href="<?php echo site_url('admin/index/logout');?>"> <i class="fa fa-power-off" aria-hidden="true"></i> 退出登录 </a> </li>
+                  <li> <a href="<?=site_url('admin/index?redirect=buyer/profile/index');?>"> <i class="fa fa-user" aria-hidden="true"></i> <span >个人中心</span> </a> </li>
+                  <li> <a href="<?=site_url('admin/index/logout');?>"> <i class="fa fa-power-off" aria-hidden="true"></i> 退出登录 </a> </li>
                 </ul>
               </div>
             </div>
@@ -135,7 +135,7 @@ if (window.top !== window.self) {
       <tr class="tab">
         <th> <div class="search" style="display: none">
             <input size="50" placeholder="搜索操作" id="J_search_keyword" type="text">
-            <button type="button" name="keyword" id="J_search" value="" data-url="<?php echo site_url();?>">搜索</button>
+            <button type="button" name="keyword" id="J_search" value="" data-url="<?=site_url();?>">搜索</button>
           </div></th>
         <td><div id="B_tabA" class="tabA"> <a href="" tabindex="-1" class="tabA_pre J_prev" id="J_prev" title="上一页"> 上一页 </a> <a href="" tabindex="-1" class="tabA_next" id="J_next" title="下一页"> 下一页 </a>
             <div style="margin:0 25px;min-height:1px;">
@@ -168,7 +168,7 @@ if (window.top !== window.self) {
           <div class="" id="loading" style="display: block; margin: auto; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width:62px; height:62px;">
             <!--                    加载中...-->
             <img class="" src="<?=STATIC_PATH;?>b2b_index/images/wait2.gif" alt=""/> </div>
-          <iframe id="iframe_default" name="iframe_default" src="<?php echo site_url('admin/index/datan')?>" style=" width: 99.5%; display: inline;" data-id="default"  scrolling="auto" frameborder="0" > </iframe>
+          <iframe id="iframe_default" name="iframe_default" src="<?=site_url('admin/index/datan')?>" style=" width: 99.5%; display: inline;" data-id="default"  scrolling="auto" frameborder="0" > </iframe>
         </td>
       </tr>
     </tbody>
@@ -220,7 +220,7 @@ SUALL = USUALL.concat('-', [{
   name: '常用操作',
   disabled: true
 }], TEMP),
-SUBMENU_CONFIG = <?php echo json_encode($left_menu);?>,
+SUBMENU_CONFIG = <?=json_encode($left_menu);?>,
 /*主菜单区*/
 imgpath = '',
 times = 0,

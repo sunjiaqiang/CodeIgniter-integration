@@ -100,7 +100,7 @@
 <body>
 <div class="main mt20 clearfix">
   <div class="container">
-    <div class="" style="color: #4d4d4d;margin-bottom: 20px;"> 系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?php echo site_url('buyer/user/index'); ?>">用户管理</a></span> </div>
+    <div class="" style="color: #4d4d4d;margin-bottom: 20px;"> 系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?=site_url('buyer/user/index'); ?>">用户管理</a></span> </div>
     <div class="content-wrap">
       <div class="choose-tab"><a class="item cur">用户管理</a></div>
       <div class="admin-wrap">
@@ -110,31 +110,25 @@
               <tr>
                 <td class="head" width="70">用户名</td>
                 <td><?php if (!$info):?>
-                  <input type="text" name="Form[name]" class="import rounded" size="30"
-                                           validate="{required:true,remote:'<?php echo $ajax_check_name; ?>'}">
+                  <input type="text" name="Form[name]" class="import rounded" size="30" validate="{required:true,remote:'<?=$ajax_check_name; ?>'}">
                   <?php else: ?>
-                  <?php echo $info['name']; ?>
+                  <?=$info['name']; ?>
                   <?php endif;?>
                 </td>
               </tr>
               <tr>
                 <td class="head">真实姓名<em class="red-color">*</em></td>
-                <td><input type="text" id="realname" name="Form[realname]" validate="{required:true}"
-                                       value="<?php echo $info ? $info['realname'] : '';?>" class="import">
+                <td><input type="text" id="realname" name="Form[realname]" validate="{required:true}" value="<?=$info ? $info['realname'] : '';?>" class="import">
                 </td>
               </tr>
               <tr>
                 <td class="head">密 码：</td>
-                <td><input id="u_password" type="password" name="Form[password]" class="import rounded"
-                                       size="30"
-                                       validate1="{required:true,rangelength:[6,16],equalTo:'#confirm_password'}">
+                <td><input id="u_password" type="password" name="Form[password]" class="import rounded" size="30" validate1="{required:true,rangelength:[6,16],equalTo:'#confirm_password'}">
                 </td>
               </tr>
               <tr>
                 <td class="head">确认密码：</td>
-                <td><input type="password" id="confirm_password" name="confirm_password"
-                                       class="import rounded" size="30"
-                                       validate1="{required:true,rangelength:[6,16],equalTo:'#u_password'}">
+                <td><input type="password" id="confirm_password" name="confirm_password" class="import rounded" size="30" validate1="{required:true,rangelength:[6,16],equalTo:'#u_password'}">
                 </td>
               </tr>
               <tr>
@@ -156,20 +150,20 @@
               <tr>
                 <td class="head">电子邮箱<em class="red-color">*</em></td>
                 <td><input type="text" id="email" name="Form[email]" validate="{required:true,email:true}"
-                                       value="<?php echo $info ? $info['email'] : '';?>" class="import">
+                                       value="<?=$info ? $info['email'] : '';?>" class="import">
                 </td>
               </tr>
               <tr>
                 <td class="head">QQ号码</td>
-                <td><input type="text" id="qq" name="Form[qq]" value="<?php echo $info ? $info['qq']:''; ?>"class="import">
+                <td><input type="text" id="qq" name="Form[qq]" value="<?=$info ? $info['qq']:''; ?>"class="import">
                 </td>
               </tr>
               <tr>
                 <td class="head">角色管理</td>
                 <td><?php foreach ($role_list as $item) { ?>
-                  <input type="radio" <?=$info ? (($item['id']==$info['role_id']) ? 'checked' : '') : '';?> name="Form[role_id]" value="<?php echo $item['id'] ?>"
+                  <input type="radio" <?=$info ? (($item['id']==$info['role_id']) ? 'checked' : '') : '';?> name="Form[role_id]" value="<?=$item['id'] ?>"
                                     validate="{required:true}" >
-                  <?php echo $item['name'] ?>
+                  <?=$item['name'] ?>
                   <?php } ?>
                 </td>
               </tr>
@@ -189,7 +183,7 @@
           <div class="submit-btn-box">
             <input type="submit" class="blue-btn-big J_ajax_submit_btn" value="提交">
           </div>
-          <input id="id" name="id" style="display:none" value="<?php echo $info ? $info['id']:0;?>">
+          <input id="id" name="id" style="display:none" value="<?=$info ? $info['id']:0;?>">
         </form>
       </div>
     </div>
@@ -207,7 +201,7 @@
         var uploadInst = upload.render({
             elem: '#test1'
             ,accept: 'file' //普通文件
-            ,url: "<?php echo site_url('plupload/index/upload_pic');?>"
+            ,url: "<?=site_url('plupload/index/upload_pic');?>"
             ,exts: 'jpg|jpeg|png|gif' //只允许上传压缩文件
             ,before: function(obj){
                 //预读本地文件示例，不支持ie8

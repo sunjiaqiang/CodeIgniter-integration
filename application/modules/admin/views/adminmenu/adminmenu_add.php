@@ -9,12 +9,12 @@
   <div id="home_toptip"></div>
   <div class="nav">
     <ul>
-      <li><a href="<?php echo site_url('admin/index/adminmenu')?>">菜单管理</a></li>
-      <li class="current"><a href="<?php echo site_url('admin/index/adminmenu_add')?>">添加菜单</a></li>
+      <li><a href="<?=site_url('admin/index/adminmenu')?>">菜单管理</a></li>
+      <li class="current"><a href="<?=site_url('admin/index/adminmenu_add')?>">添加菜单</a></li>
     </ul>
   </div>
   <div class="table_full">
-    <form class="formvalidate" action="<?php echo $form_post;?>" method="post">
+    <form class="formvalidate" action="<?=$form_post;?>" method="post">
       <div class="h_a">添加菜单</div>
       <div class="table_full">
         <table width="100%">
@@ -25,7 +25,7 @@
               <th>父级菜单</th>
               <td><select name="Form[parent_id]" class="select rounded" style="font-family: 'Courier New', Courier, monospace;">
                   <option value="0">作为顶级菜单</option>
-                  <?php echo $select_categorys;?>
+                  <?=$select_categorys;?>
                 </select>
               </td>
             </tr>

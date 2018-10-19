@@ -125,6 +125,7 @@ class Admin_Menu_model extends CI_Model{
      * @param array $data
      */
     public function edit_row($where=[],$data=[]){
+        $sql = "SELECT * FROM cs_admin_role";
         $this->db->where($where,null,false);
         return $this->db->update($this->table_menu,$data);
     }
