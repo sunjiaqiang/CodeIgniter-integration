@@ -12,4 +12,5 @@ return array(
     'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
     'OSS\\' => array($vendorDir . '/aliyuncs/oss-sdk-php/src/OSS'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qr-code/src'),
+    'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),
 );

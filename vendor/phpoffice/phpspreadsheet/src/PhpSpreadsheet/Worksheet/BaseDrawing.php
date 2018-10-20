@@ -2,6 +2,7 @@
 
 namespace PhpOffice\PhpSpreadsheet\Worksheet;
 
+use PhpOffice\PhpSpreadsheet\Cell\Hyperlink;
 use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
 use PhpOffice\PhpSpreadsheet\IComparable;
 
@@ -97,6 +98,13 @@ class BaseDrawing implements IComparable
      * @var Drawing\Shadow
      */
     protected $shadow;
+
+    /**
+     * Image hyperlink.
+     *
+     * @var null|Hyperlink
+     */
+    private $hyperlink;
 
     /**
      * Create a new BaseDrawing.
@@ -501,11 +509,29 @@ class BaseDrawing implements IComparable
     {
         $vars = get_object_vars($this);
         foreach ($vars as $key => $value) {
-            if (is_object($value)) {
+            if ($key == 'worksheet') {
+                $this->worksheet = null;
+            } elseif (is_object($value)) {
                 $this->$key = clone $value;
             } else {
                 $this->$key = $value;
             }
         }
+    }
+
+    /**
+     * @param null|Hyperlink $pHyperlink
+     */
+    public function setHyperlink(Hyperlink $pHyperlink = null)
+    {
+        $this->hyperlink = $pHyperlink;
+    }
+
+    /**
+     * @return null|Hyperlink
+     */
+    public function getHyperlink()
+    {
+        return $this->hyperlink;
     }
 }
