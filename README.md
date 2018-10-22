@@ -56,7 +56,7 @@
 <img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E5%90%8E%E5%8F%B0%E7%99%BB%E9%99%86.jpg">
 
 菜单管理
-<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E5%90%8E%E5%8F%B0%E7%99%BB%E9%99%86.jpg">
+<img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E8%8F%9C%E5%8D%95%E7%AE%A1%E7%90%86.jpg">
 
 用户管理
 <img src="https://github.com/sunjiaqiang/CodeIgniter-integration/blob/master/public/%E7%95%8C%E9%9D%A2%E9%A2%84%E8%A7%88/RBAC/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.jpg">
