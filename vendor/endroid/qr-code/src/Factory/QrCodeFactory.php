@@ -10,113 +10,84 @@
 namespace Endroid\QrCode\Factory;
 
 use Endroid\QrCode\QrCode;
+use Endroid\QrCode\QrCodeInterface;
+use Endroid\QrCode\WriterRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class QrCodeFactory
+class QrCodeFactory implements QrCodeFactoryInterface
 {
-    /**
-     * @var OptionsResolver
-     */
-    protected $optionsResolver;
+    private $writerRegistry;
+    private $optionsResolver;
+    private $defaultOptions;
+    private $definedOptions = [
+        'writer',
+        'writer_options',
+        'size',
+        'margin',
+        'foreground_color',
+        'background_color',
+        'encoding',
+        'round_block_size',
+        'error_correction_level',
+        'logo_path',
+        'logo_width',
+        'logo_height',
+        'label',
+        'label_font_size',
+        'label_font_path',
+        'label_alignment',
+        'label_margin',
+        'validate_result',
+    ];
 
-    /**
-     * Creates a new instance.
-     *
-     * @param array $defaults
-     */
-    public function __construct(array $defaults = [])
+    public function __construct(array $defaultOptions = [], WriterRegistryInterface $writerRegistry = null)
     {
-        $defaults = array_merge($this->getAvailableOptions(), $defaults);
-        $this->optionsResolver = new OptionsResolver();
-        $this->optionsResolver->setDefaults($defaults);
+        $this->defaultOptions = $defaultOptions;
+        $this->writerRegistry = $writerRegistry;
     }
 
-    /**
-     * Creates a QR code.
-     *
-     * @param array $options
-     *
-     * @return QrCode
-     */
-    public function createQrCode(array $options = [])
+    public function create(string $text = '', array $options = []): QrCodeInterface
     {
-        $options = $this->optionsResolver->resolve($options);
+        $options = $this->getOptionsResolver()->resolve($options);
+        $accessor = PropertyAccess::createPropertyAccessor();
 
-        $qrCode = new QrCode();
+        $qrCode = new QrCode($text);
 
-        if (isset($options['text']) && !is_null($options['text'])) {
-            $qrCode->setText($options['text']);
+        if ($this->writerRegistry instanceof WriterRegistryInterface) {
+            $qrCode->setWriterRegistry($this->writerRegistry);
         }
 
-        if (isset($options['size']) && !is_null($options['size'])) {
-            $qrCode->setSize($options['size']);
-        }
-
-        if (isset($options['padding']) && !is_null($options['padding'])) {
-            $qrCode->setPadding($options['padding']);
-        }
-
-        if (isset($options['extension']) && !is_null($options['extension'])) {
-            $qrCode->setExtension($options['extension']);
-        }
-
-        if (isset($options['error_correction_level']) && !is_null($options['error_correction_level'])) {
-            $qrCode->setErrorCorrection($options['error_correction_level']);
-        }
-
-        if (isset($options['foreground_color']) && !is_null($options['foreground_color'])) {
-            $qrCode->setForegroundColor($options['foreground_color']);
-        }
-
-        if (isset($options['background_color']) && !is_null($options['background_color'])) {
-            $qrCode->setBackgroundColor($options['background_color']);
-        }
-
-        if (isset($options['label']) && !is_null($options['label'])) {
-            $qrCode->setLabel($options['label']);
-        }
-
-        if (isset($options['label_font_size']) && !is_null($options['label_font_size'])) {
-            $qrCode->setLabelFontSize($options['label_font_size']);
-        }
-
-        if (isset($options['label_font_path']) && !is_null($options['label_font_path'])) {
-            $qrCode->setLabelFontPath($options['label_font_path']);
+        foreach ($this->definedOptions as $option) {
+            if (isset($options[$option])) {
+                if ('writer' === $option) {
+                    $options['writer_by_name'] = $options[$option];
+                    $option = 'writer_by_name';
+                }
+                $accessor->setValue($qrCode, $option, $options[$option]);
+            }
         }
 
         return $qrCode;
     }
 
-    /**
-     * Returns all available options.
-     *
-     * @return array
-     */
-    public function getAvailableOptions()
+    private function getOptionsResolver(): OptionsResolver
     {
-        $options = [
-            'text' => null,
-            'size' => null,
-            'extension' => null,
-            'error_correction_level' => null,
-            'foreground_color' => null,
-            'background_color' => null,
-            'padding' => null,
-            'label' => null,
-            'label_font_size' => null,
-            'label_font_path' => null,
-        ];
+        if (!$this->optionsResolver instanceof OptionsResolver) {
+            $this->optionsResolver = $this->createOptionsResolver();
+        }
 
-        return $options;
+        return $this->optionsResolver;
     }
 
-    /**
-     * Returns the current defaults.
-     *
-     * @return array
-     */
-    public function getDefaultOptions()
+    private function createOptionsResolver(): OptionsResolver
     {
-        return $this->optionsResolver->resolve();
+        $optionsResolver = new OptionsResolver();
+        $optionsResolver
+            ->setDefaults($this->defaultOptions)
+            ->setDefined($this->definedOptions)
+        ;
+
+        return $optionsResolver;
     }
 }

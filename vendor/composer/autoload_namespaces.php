@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Upload' => array($vendorDir . '/codeguy/upload/src'),
     'PHPQRCode' => array($vendorDir . '/aferrandini/phpqrcode/lib'),
+    'BaconQrCode' => array($vendorDir . '/bacon/bacon-qr-code/src'),
 );
