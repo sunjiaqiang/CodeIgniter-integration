@@ -325,17 +325,17 @@
     },
     {
         "name": "phpoffice/phpspreadsheet",
-        "version": "1.4.1",
-        "version_normalized": "1.4.1.0",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-            "reference": "57404f43742a8164b5eac3ab03b962d8740885c1"
+            "reference": "2dfd06c59825914a1a325f2a2ed13634b9d8c411"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/57404f43742a8164b5eac3ab03b962d8740885c1",
-            "reference": "57404f43742a8164b5eac3ab03b962d8740885c1",
+            "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/2dfd06c59825914a1a325f2a2ed13634b9d8c411",
+            "reference": "2dfd06c59825914a1a325f2a2ed13634b9d8c411",
             "shasum": "",
             "mirrors": [
                 {
@@ -376,7 +376,7 @@
             "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
             "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
         },
-        "time": "2018-09-30T03:57:24+00:00",
+        "time": "2018-10-21T10:04:54+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
