@@ -187,7 +187,7 @@ class File extends \SplFileInfo
     public function getExtension()
     {
         if (!isset($this->extension)) {
-            $this->extension = pathinfo($this->originalName, PATHINFO_EXTENSION);
+            $this->extension = strtolower(pathinfo($this->originalName, PATHINFO_EXTENSION));
         }
 
         return $this->extension;
@@ -208,6 +208,28 @@ class File extends \SplFileInfo
         }
 
         return $this->mimetype;
+    }
+
+    /**
+     * Get md5
+     * @return string
+     */
+    public function getMd5()
+    {
+        return md5_file($this->getPathname());
+    }
+
+    /**
+     * Get image dimensions
+     * @return array formatted array of dimensions
+     */
+    public function getDimensions()
+    {
+        list($width, $height) = getimagesize($this->getPathname());
+        return array(
+            'width' => $width,
+            'height' => $height
+        );
     }
 
     /********************************************************************************
@@ -292,16 +314,22 @@ class File extends \SplFileInfo
 
     /**
      * Upload file (delegated to storage object)
+     * @param  string $newName Give the file it a new name
      * @return bool
      * @throws \Upload\Exception\UploadException If file does not validate
      */
-    public function upload()
+    public function upload($newName = null)
     {
         if ($this->validate() === false) {
             throw new \Upload\Exception\UploadException('File validation failed');
         }
 
-        return $this->storage->upload($this);
+        // Update the name, leaving out the extension
+        if (is_string($newName)) {
+            $this->name = pathinfo($newName, PATHINFO_FILENAME);
+        }
+
+        return $this->storage->upload($this, $newName);
     }
 
     /********************************************************************************
