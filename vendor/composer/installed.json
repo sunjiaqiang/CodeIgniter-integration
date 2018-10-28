@@ -494,17 +494,17 @@
     },
     {
         "name": "myclabs/php-enum",
-        "version": "1.6.2",
-        "version_normalized": "1.6.2.0",
+        "version": "1.6.3",
+        "version_normalized": "1.6.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/myclabs/php-enum.git",
-            "reference": "ca2f4090a7ecae6f0c67fc9bd07cfb51cdf04219"
+            "reference": "a8284c7c540caf9988e339a404cadcdf1e8b165d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/myclabs/php-enum/zipball/ca2f4090a7ecae6f0c67fc9bd07cfb51cdf04219",
-            "reference": "ca2f4090a7ecae6f0c67fc9bd07cfb51cdf04219",
+            "url": "https://api.github.com/repos/myclabs/php-enum/zipball/a8284c7c540caf9988e339a404cadcdf1e8b165d",
+            "reference": "a8284c7c540caf9988e339a404cadcdf1e8b165d",
             "shasum": "",
             "mirrors": [
                 {
@@ -520,7 +520,7 @@
             "phpunit/phpunit": "^4.8.35|^5.7|^6.0",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2018-08-01T21:05:54+00:00",
+        "time": "2018-10-27T21:15:22+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
