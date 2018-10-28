@@ -2,6 +2,7 @@
 	"name": "sunjiaqiang/codeigniter-integration",
 	"description": "基于CI框架3.1.9的hmvc模式整合的一些插件和常用功能",
 	"type": "project",
+	"homepage": "https://github.com/sunjiaqiang/CodeIgniter-integration",
 	"license": "MIT",
 	
   "require": {
@@ -23,7 +24,8 @@
 	"authors": [
         {
           "name": "sunjiaqiang",
-          "email": "1355049422@qq.com"
+          "email": "1355049422@qq.com",
+		  "homepage": "https://github.com/sunjiaqiang/CodeIgniter-integration"
         }
     ]
 }
