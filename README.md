@@ -3,8 +3,9 @@
 基于CI框架3.1.9的hmvc模式整合的一些插件和常用功能，如果对hmvc不是很了解的同学，可以先百度一下，
 如果你有php基础和框架使用经验(yii,thinkphp等)，一般来说这些功能都能整合进这些框架中。
 
-# PHP环境要求
-
+# 安装及要求
+clone本项目或者下载zip到本地
+推荐使用composer安装：composer create-project sunjiaqiang/codeigniter-integration
 PHP>=5.6，否则会报错
 
 # 简介
