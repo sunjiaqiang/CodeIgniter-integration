@@ -7,7 +7,7 @@ application/logs/*
 !application/logs/index.html
 
 application/sessions/*
-#/jingtai/
+/jingtai/
 !application/*/.htaccess
 
 #composer.lock
