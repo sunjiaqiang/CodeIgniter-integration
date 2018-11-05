@@ -21,7 +21,6 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          * @param $data
          */
         public function set_data($data){
-            p($data);
             $this->data = $data;
         }
 

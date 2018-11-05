@@ -1,6 +1,6 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-require_once '/vendor/tecnickcom/tcpdf/tcpdf.php';
+require_once './vendor/tecnickcom/tcpdf/tcpdf.php';
 /**
  * Created by PhpStorm.
  * User: 123456

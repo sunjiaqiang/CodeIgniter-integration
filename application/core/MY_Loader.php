@@ -151,7 +151,6 @@ class MY_Loader extends CI_Loader {
         // 必须是类似这样的模块类名：目录_模块名_控制器名_module (如：Account_Message_Home_module)
         $c = str_replace(' ', '_', ucwords(str_replace('_', ' ', $controller)));
         $class_name = str_replace(' ', '_', ucwords(str_replace('/', ' ', $path.$module.' '.$c))) . '_module';
-
         // Module 的控制器文件的路径
         $controller_path = APPPATH.'modules/'.$path.$module.'/controllers/'.ucfirst($controller).'.php';
 
@@ -265,7 +264,9 @@ class MY_Loader extends CI_Loader {
             $model = substr($model, $last_slash);
         }
 
-        if (($last_slash = strpos($model,'.')) !== FALSE){
+        //判断是否是已定的模块下面的模型
+        if (($last_slash = strrpos($model, '.')) !== FALSE)
+        {
             // The path is in front of the last slash
             $this->_ci_module_path = substr($model, 0, $last_slash);
 
