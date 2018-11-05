@@ -86,6 +86,9 @@ function doAjaxDel(){
     $(".doDel").click(function(){
         var uri = $(this).attr("data-uri");
         var that = this;
+        if ( ! check_url.check_auth('buyer/user/edit')) {
+            return false;
+        }
         $.dialog.confirm("你确认删除操作吗？删除后无法恢复！", function () {
             $.ajax({
                 url:uri,
@@ -112,3 +115,21 @@ function doAjaxDel(){
     });
 }
 
+var check_url={
+    // 校验权限URL
+    check_auth_url:window.location.protocol+'//'+window.location.host+'/admin/index/check_auth',
+    check_auth:function (url) {
+
+        $.ajaxSetup({async:false});
+        $.post(check_url.check_auth_url,{url:url},function(data){
+            rt = JSON.parse(data);
+        });
+        if (rt.status == -1){
+            alert(rt.msg);
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+}

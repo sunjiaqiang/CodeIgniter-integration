@@ -216,11 +216,15 @@ $(function() {
 		submitHandler: function(form) 
 		{
             $('form').find('.btn_submit').attr("disabled", true).removeClass('btn_submit ').addClass('btn_disabled');
-
             $(form).ajaxSubmit({
 			    dataType: 'json',
 				type:'post',
-				success: function (data) {
+                beforeSubmit:function(){
+                    if ( ! check_url.check_auth('buyer/user/edit')){
+                        return false;
+                    }
+                },
+                success: function (data) {
 		            if(data.status==true){
 		            	ajax_close(data);
 		            }else{

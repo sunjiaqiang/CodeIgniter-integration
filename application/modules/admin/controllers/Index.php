@@ -299,4 +299,16 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         public function datan(){
             echo "后台";
         }
+
+        /**
+         * 权限校验
+         */
+        public function check_auth(){
+            $url = $this->input->post('url');
+            $arr=[
+                'status'=>-1,
+                'msg'=>"没有权限"
+            ];
+            echo json_encode($arr);
+        }
     }

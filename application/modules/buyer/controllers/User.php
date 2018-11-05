@@ -86,6 +86,13 @@ class Buyer_User_module extends CI_Module{
                 $this->error("保存失败！",$returl,true);
             }
         }
+//        $auth_arr=[
+//            'buyer/user/edit2',
+//            'buyer/user/save'
+//        ];
+//        if ( ! in_array('buyer/user/edit',$auth_arr)){
+//            $this->error("您没有权限",'',3);
+//        }
         $arr = [];
         $id = $this->input->get('id');
         $arr['ajax_check_name'] = site_url("buyer/user/ajax_check_name?id=0");

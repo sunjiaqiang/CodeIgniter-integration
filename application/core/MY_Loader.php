@@ -295,14 +295,14 @@ class MY_Loader extends CI_Loader {
             $module_model_name = str_replace(' ', '_', ucwords(str_replace('/', ' ', $this->_ci_module_path.' '.$model)));
             if (isset($CI->$module_class_name->$name))
             {
-                throw new RuntimeException('The model name you are loading is the name of a resource that is already being used: '.$module_class_name.'.'.$module_model_name);
+                show_error('The model name you are loading is the name of a resource that is already being used: '.$module_class_name.'.'.$module_model_name);
             }
         }
         else
         {
             if (isset($CI->$name))
             {
-                throw new RuntimeException('The model name you are loading is the name of a resource that is already being used: '.$name);
+                show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
             }
         }
 
@@ -332,7 +332,7 @@ class MY_Loader extends CI_Loader {
                 require_once($app_path.'Model.php');
                 if ( ! class_exists('CI_Model', FALSE))
                 {
-                    throw new RuntimeException($app_path."Model.php exists, but doesn't declare class CI_Model");
+                    show_error($app_path."Model.php exists, but doesn't declare class CI_Model");
                 }
             }
             elseif ( ! class_exists('CI_Model', FALSE))
@@ -346,7 +346,7 @@ class MY_Loader extends CI_Loader {
                 require_once($app_path.$class.'.php');
                 if ( ! class_exists($class, FALSE))
                 {
-                    throw new RuntimeException($app_path.$class.".php exists, but doesn't declare class ".$class);
+                    show_error($app_path.$class.".php exists, but doesn't declare class ".$class);
                 }
             }
         }
@@ -368,14 +368,14 @@ class MY_Loader extends CI_Loader {
                 {
                     if ( ! class_exists($module_model_name, FALSE))
                     {
-                        throw new RuntimeException($mod_path."models/".$path.$module_model_name.".php exists, but doesn't declare class ".$module_model_name);
+                        show_error($mod_path."models/".$path.$module_model_name.".php exists, but doesn't declare class ".$module_model_name);
                     }
                 }
                 else
                 {
                     if ( ! class_exists($model, FALSE))
                     {
-                        throw new RuntimeException($mod_path."models/".$path.$model.".php exists, but doesn't declare class ".$model);
+                        show_error($mod_path."models/".$path.$model.".php exists, but doesn't declare class ".$model);
                     }
                 }
 
@@ -386,21 +386,21 @@ class MY_Loader extends CI_Loader {
             {
                 if ( ! class_exists($module_model_name, FALSE))
                 {
-                    throw new RuntimeException('Unable to locate the model you have specified: '.$module_model_name);
+                    show_error('Unable to locate the model you have specified: '.$module_model_name);
                 }
             }
             else
             {
                 if ( ! class_exists($model, FALSE))
                 {
-                    throw new RuntimeException('Unable to locate the model you have specified: '.$model);
+                    show_error('Unable to locate the model you have specified: '.$model);
                 }
             }
 
         }
         elseif ( ! is_subclass_of($model, 'CI_Model'))
         {
-            throw new RuntimeException("Class ".$model." already exists and doesn't extend CI_Model");
+            show_error("Class ".$model." already exists and doesn't extend CI_Model");
         }
 
         $this->_ci_models[] = $name;
