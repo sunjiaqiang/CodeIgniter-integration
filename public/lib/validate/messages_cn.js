@@ -215,13 +215,15 @@ $(function() {
         success:"valid",
 		submitHandler: function(form) 
 		{
-            $('form').find('.btn_submit').attr("disabled", true).removeClass('btn_submit ').addClass('btn_disabled');
+
             $(form).ajaxSubmit({
 			    dataType: 'json',
 				type:'post',
                 beforeSubmit:function(){
                     if ( ! check_url.check_auth('buyer/user/edit')){
                         return false;
+                    }else {
+                        $('form').find('.btn_submit').attr("disabled", true).removeClass('btn_submit ').addClass('btn_disabled');
                     }
                 },
                 success: function (data) {
