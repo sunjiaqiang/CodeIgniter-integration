@@ -82,7 +82,7 @@
           </tr>
           <?php foreach($v1['list'] as $k2=>$v2):?>
           <tr style="display: none" class="level_<?=$v['id']?> leveo_<?=$v['id']?> level_<?=$v1['id']?>">
-            <?php if($is_add || $is_del):?>
+            <?php if($is_edit || $is_del):?>
             <td class="btn_min"><div class="operat hidden"> <a class="icon-cog action" href="javascript:;">处理</a>
 
                 <div class="menu_select">
