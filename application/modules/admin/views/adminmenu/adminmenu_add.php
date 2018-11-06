@@ -68,6 +68,14 @@
                 不显示</label>
                 <span>需要明显不确定的操作时建议设置为不显示，例如：删除，修改等</span> </td>
             </tr>
+            <tr>
+                <th>类型</th>
+                <td>
+                    <label><input type="radio" value="1" name="Form[type]" checked="checked">权限认证菜单</label>
+                    <label><input type="radio" value="0" name="Form[type]">权限认证方法</label>
+                    <span>注意：“权限认证菜单”表示后台的动态菜单，纯粹是操作方法(例如:修改、删除等操作)请不要选择此项。</span>
+                </td>
+            </tr>
           </tbody>
         </table>
       </div>

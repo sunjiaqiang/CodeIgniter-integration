@@ -20,6 +20,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          * 因为使用的是iframe所以菜单在这里获取就可以
          */
         public function index(){
+            //检测是否已登录
+            $this->Adminuser_model->is_login();
 //            p("登录成功");
 //            p($this->session->userdata());
             $where = ['pingtai'=>2];
@@ -71,6 +73,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          * 后台登录页
          */
         public function login(){
+            $admin_user_id = $this->session->userdata('admin_user_id');
+            if ($admin_user_id) redirect(site_url('admin/index/index'));
             $data['login_url'] = site_url('admin/index/tologin');
 //            $this->error("用户名或者密码错误，登陆失败！",site_url(''), 10);
             $this->load->view('index/login',$data);
@@ -160,7 +164,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          */
         public function adminmenu(){
             $this->load->library('mytreeclass');
-            $list = $this->Menu_model->get_list(['pingtai'=>2]);
+            $list = $this->Menu_model->get_list(['pingtai'=>2,'ismenu'=>1]);
             $res = [];
             foreach($list as $key=>$val){
                 if($val['parent_id']==0){
@@ -182,10 +186,73 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                     }
                 }
             }
+            $data['index_url'] = site_url('admin/index/adminmenu');
+            $data['add_url'] = site_url('admin/index/adminmenu_add');
+            $data['ajax_status_url'] = site_url('admin/index/ajax_menu_status');
             $data['res'] = $res;//print_r($data['res']);
             $this->load->view('adminmenu/adminmenu_index',$data);
         }
 
+        /**
+         * 事件菜单列表
+         */
+        public function actionmenu(){
+//            p('事件菜单');
+            $this->load->library('mytreeclass');
+            $list = $this->Menu_model->get_action_list(['pingtai'=>2]);
+            $res = [];
+            foreach($list as $key=>$val){
+                if($val['parent_id']==0){
+                    $res[$key] = $val;
+                    $res[$key]['list'] =array();
+                    unset($list[$key]);
+                    foreach($list as $k1=>$v1){
+                        if($v1['parent_id']==$val['id']){
+                            $res[$key]['list'][$k1]=$v1;
+                            $res[$key]['list'][$k1]['list'] = array();
+                            unset($list[$k1]);
+                            foreach($list as $k2=>$v2){
+                                if($v2['parent_id']==$v1['id']){
+                                    if ($v2['ismenu'] == 1){//去掉菜单项
+                                        unset($v2);
+                                    }else{
+                                        array_push($res[$key]['list'][$k1]['list'], $v2);
+                                        unset($list[$k2]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $data['index_url'] = site_url('admin/index/actionmenu');
+            $data['add_url'] = site_url('admin/index/actionmenu_add');
+            $data['ajax_status_url'] = site_url('admin/index/ajax_actionmenu_status');
+            $data['res'] = $res;//print_r($data['res']);
+            $this->load->view('adminmenu/admin_actionmenu_index',$data);
+        }
+        /**
+         * 添加菜单
+         */
+        public function actionmenu_add(){
+            //引入树形类
+            $this->load->library('mytreeclass');
+            $parent_id = 0;
+            $result = $this->Menu_model->get_action_list(['pingtai'=>2]);
+            $array = array();
+            foreach($result as $r){
+                $r['selected'] = $r['id']==$parent_id ? 'selected':'';
+                $array[] = $r;
+            }
+            $this->mytreeclass->init($array);
+            $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
+            $select_categorys = $this->mytreeclass->get_tree(0, $str);
+            $data['select_categorys'] = $select_categorys;
+            //数据保存URL
+            $data['form_post'] = site_url('admin/index/actionmenu_save');
+            $data['index_url'] = site_url('admin/index/actionmenu');
+            $this->load->view('adminmenu/actionmenu_add',$data);
+        }
         /**
          * 添加菜单
          */
@@ -229,10 +296,35 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $data['select_categorys'] = $select_categorys;
             $data['row'] = $row;
             //数据保存URL
-            $data['form_post'] = site_url('admin/index/adminmenu_save');
+            $data['form_post'] = site_url('admin/index/actionmenu_save');
             $this->load->view('adminmenu/adminmenu_edit',$data);
         }
-
+        /**
+         * 修改菜单
+         */
+        public function actionmenu_edit(){
+            $id = $this->input->get('id');
+            //引入树形类
+            $this->load->library('mytreeclass');
+            $row = $this->Menu_model->get_action_row(['id'=>$id]);
+            $parent_id = $row['parent_id'];
+            $result = $this->Menu_model->get_action_list(['pingtai'=>2]);
+            $array = [];
+            foreach($result as $r){
+                $r['selected'] = $r['id']==$parent_id ? 'selected':'';
+                $array[] = $r;
+            }
+            $this->mytreeclass->init($array);
+            $str = "<option value='\$id' \$selected>\$spacer \$name</option>";
+            $select_categorys = $this->mytreeclass->get_tree(0, $str);
+            $data['select_categorys'] = $select_categorys;
+            $data['row'] = $row;
+            //数据保存URL
+            $data['form_post'] = site_url('admin/index/actionmenu_save');
+            $data['index_url'] = site_url('admin/index/actionmenu');
+            $data['add_url'] = site_url('admin/index/actionmenu_add');
+            $this->load->view('adminmenu/actionmenu_edit',$data);
+        }
         /**
          * 保存菜单数据
          */
@@ -251,6 +343,27 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 $this->error('操作失败',site_url('dmin/index/adminmenu'),true);
             }
         }
+
+        /**
+         * 保存事件菜单数据
+         */
+        public function actionmenu_save(){
+            $data = $this->input->post('Form');
+            $id = $this->input->post('id');
+            if(empty($id)){
+                $data['ismenu'] = 0;
+                $data['pingtai'] = 2;
+                $res = $this->Menu_model->add_action_row($data);
+            }else{
+                $res = $this->Menu_model->edit_action_row(['id'=>$id],$data);
+            }
+            if($res){
+                $this->success('操作成功',site_url('admin/index/actionmenu'),true);
+            }else{
+                $this->error('操作失败',site_url('dmin/index/actionmenu'),true);
+            }
+        }
+
         /**
          * 异步删除菜单
          */
@@ -270,12 +383,43 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         }
 
         /**
+         * 异步删除菜单
+         */
+        public function ajax_remove_actionmenu(){
+            $id = $this->input->get('id');
+            //判断是否有子菜单
+            $is_has_child = $this->Menu_model->is_has_child($id,2);
+            if($is_has_child){
+                $this->error('该菜单存在子菜单,请先删除其子菜单!','',true);
+            }
+            $res = $this->Menu_model->remove_row(['id'=>$id],2);
+            if($res){
+                $this->success('操作成功','',true);
+            }else{
+                $this->error('操作失败','',true);
+            }
+        }
+
+        /**
          * 异步修改菜单状态
          */
         public function ajax_menu_status(){
             $post = $this->input->post();
             $data[$post['field']] = $post['val'];
             $res = $this->Menu_model->edit_row(['id'=>$post['id']],$data);
+            if($res){
+                $this->success('操作成功','',true);
+            }else{
+                $this->error('操作失败','',true);
+            }
+        }
+        /**
+         * 异步修改菜单状态
+         */
+        public function ajax_actionmenu_status(){
+            $post = $this->input->post();
+            $data[$post['field']] = $post['val'];
+            $res = $this->Menu_model->edit_row(['id'=>$post['id']],$data,2);
             if($res){
                 $this->success('操作成功','',true);
             }else{
@@ -306,8 +450,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         public function check_auth(){
             $url = $this->input->post('url');
             $arr=[
-                'status'=>-1,
-                'msg'=>"没有权限"
+                'status'=>1,
+                'msg'=>"有权限"
             ];
             echo json_encode($arr);
         }

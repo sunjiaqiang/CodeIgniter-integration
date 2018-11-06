@@ -8,10 +8,12 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  */
 class Admin_Menu_model extends CI_Model{
     private $table_menu;//后台菜单表
+    private $table_action_menu;//后台操作方法菜单表
     public function __construct()
     {
         parent::__construct();
         $this->table_menu = 'cs_admin_menu';
+        $this->table_action_menu = 'cs_admin_actionmenu';
     }
 
     /**
@@ -83,7 +85,7 @@ class Admin_Menu_model extends CI_Model{
      * @param array $where
      */
     public function get_list($where = []){
-        $this->db->select('id,parent_id,name,sort_order,status,app,controller,action,parameter,type');
+        $this->db->select('id,parent_id,name,sort_order,status,app,controller,action,parameter,type,ismenu');
         $this->db->where($where,null,false);
         $this->db->order_by('sort_order', 'ASC');
         $query = $this->db->get($this->table_menu);
@@ -95,6 +97,25 @@ class Admin_Menu_model extends CI_Model{
         }
         return $arr;
     }
+
+    /**
+     * 获取所有菜单
+     * @param array $where
+     */
+    public function get_action_list($where = []){
+        $this->db->select('id,parent_id,name,sort_order,status,app,controller,action,parameter,type,ismenu');
+        $this->db->where($where,null,false);
+        $this->db->order_by('sort_order', 'ASC');
+        $query = $this->db->get($this->table_action_menu);
+        $result = $query->result_array();
+        $arr = [];
+        foreach ($result as $key=>$val){
+            $val['url'] = site_url($val['app'].'/'.$val['controller'].'/'.$val['action'].($val['parameter'] ? '?'.$val['parameter'] : ''));
+            $arr[] = $val;
+        }
+        return $arr;
+    }
+
     /**
      * 获取单条记录
      * @param array $where
@@ -104,6 +125,17 @@ class Admin_Menu_model extends CI_Model{
     public function get_row($where=[],$field='*'){
         if(!empty($field))$this->db->select($field);
         $query = $this->db->get_where($this->table_menu,$where,1);
+        return $query->row_array();
+    }
+    /**
+     * 获取单条事件菜单记录
+     * @param array $where
+     * @param string $field
+     * @return mixed
+     */
+    public function get_action_row($where=[],$field='*'){
+        if(!empty($field))$this->db->select($field);
+        $query = $this->db->get_where($this->table_action_menu,$where,1);
         return $query->row_array();
     }
     /**
@@ -120,23 +152,56 @@ class Admin_Menu_model extends CI_Model{
     }
 
     /**
+     * 添加事件数据
+     * @param $data
+     * @return bool
+     */
+    public function add_action_row($data=[]){
+        if($this->db->insert($this->table_action_menu,$data)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * 更新数据
      * @param array $where
      * @param array $data
      */
-    public function edit_row($where=[],$data=[]){
-        $sql = "SELECT * FROM cs_admin_role";
+    public function edit_row($where=[],$data=[],$type=1){
+        if ($type == 1){
+            $table = $this->table_menu;
+        }else{
+            $table = $this->table_action_menu;
+        }
         $this->db->where($where,null,false);
-        return $this->db->update($this->table_menu,$data);
+        return $this->db->update($table,$data);
     }
+
+    /**
+     * 更新事件菜单数据
+     * @param array $where
+     * @param array $data
+     */
+    public function edit_action_row($where=[],$data=[]){
+        $this->db->where($where,null,false);
+        return $this->db->update($this->table_action_menu,$data);
+    }
+
     /**
      * 查询该分类是否有子分类
      * @param $parent_id
      * @return bool
      */
-    public function is_has_child($parent_id){
+    public function is_has_child($parent_id,$type=1){
+        if ($type == 1){
+            $table = $this->table_menu;
+        }else{
+            $table = $this->table_action_menu;
+        }
         $this->db->select('id');
-        $query = $this->db->get_where($this->table_menu,['parent_id'=>$parent_id],1);
+        $query = $this->db->get_where($table,['parent_id'=>$parent_id],1);
         $row = $query->row_array();
         if(isset($row['id'])&&$row['id']){
             return true;
@@ -149,9 +214,14 @@ class Admin_Menu_model extends CI_Model{
      * @param array $where
      * @return bool
      */
-    public function remove_row($where=[]){
+    public function remove_row($where=[],$type=1){
+        if ($type == 1){
+            $table = $this->table_menu;
+        }else{
+            $table = $this->table_action_menu;
+        }
         if(!empty($where)){
-            return $this->db->delete($this->table,$where);
+            return $this->db->delete($table,$where);
         }
         return false;
     }

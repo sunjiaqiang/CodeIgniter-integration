@@ -10,13 +10,13 @@
 <div class="wrap J_check_wrap">
   <div class="nav">
     <ul>
-      <li class="current"><a href="<?=site_url('admin/index/adminmenu')?>">菜单管理</a></li>
-      <li><a href="<?=site_url('admin/index/adminmenu_add')?>">添加菜单</a></li>
+      <li class="current"><a href="<?=$index_url;?>">菜单管理</a></li>
+      <li><a href="<?=$add_url;?>">添加菜单</a></li>
     </ul>
   </div>
   <form method="post" action="">
     <div class="table_list" id="content">
-      <table width="100%" data-uri="<?=site_url('admin/index/ajax_menu_status');?>">
+      <table width="100%" data-uri="<?=$ajax_status_url;?>">
         <thead>
           <tr>
             <td style="width:8%">操作</td>

@@ -12,6 +12,8 @@ class Buyer_User_module extends CI_Module{
         parent::__construct();
         $this->load->model('admin.Adminuser_model');
         $this->load->model('admin.Adminrole_model');
+        //检测是否已登录
+        $this->Adminuser_model->is_login();
     }
 
     /**
