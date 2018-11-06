@@ -13,6 +13,8 @@ class Buyer_Role_module extends CI_Module{
         $this->load->model('admin.Adminuser_model');
         $this->load->model('admin.Adminrole_model');
         $this->load->model('admin.Menu_model');
+        //检测是否已登录
+        $this->Adminuser_model->is_login();
     }
 
     /**

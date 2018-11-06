@@ -109,4 +109,13 @@ class Admin_Adminuser_model extends CI_Model{
         }
         return false;
     }
+
+    /**
+     * 检测是否登录
+     */
+    public function is_login(){
+        $admin_user_id = $this->session->userdata('admin_user_id');
+        if(empty($admin_user_id))redirect(site_url('admin/index/login'));
+        return true;
+    }
 }

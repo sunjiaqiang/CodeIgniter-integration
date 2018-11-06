@@ -47,6 +47,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                     }
                 }
             }
+
             foreach($date as $key=>$val){
                 $tmp_arr = explode('-',$val);
                 $tmp[]=$tmp_arr[0].'年'.$tmp_arr[1].'月';
