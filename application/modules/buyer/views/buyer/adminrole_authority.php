@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 <head>
-<title>管理菜单添加</title>
-    <?php $this->load->module('admin/index/page_header');?>
+<title>编辑角色菜单权限</title>
+<?php $this->load->module('admin/index/page_header');?>
 <link href="<?=STATIC_PATH;?>lib/zTree/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
 <script type="text/javascript" src="<?=STATIC_PATH;?>lib/zTree/jquery.ztree.core-3.5.js"></script>
 <script type="text/javascript" src="<?=STATIC_PATH;?>lib/zTree/jquery.ztree.excheck-3.5.js"></script>
@@ -12,13 +12,13 @@
 <div class="wrap">
     <div id="home_toptip"></div>
 	<div class="" style="color: #4d4d4d;margin-bottom: 20px;">
-		系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?=site_url('buyer/role/index'); ?>">角色管理</a></span>
+		系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?=$index_url;?>">角色管理</a></span>
 	</div>
     <div class="nav">
         <ul>
-            <li><a href="<?=site_url('buyer/role/index')?>">角色管理</a></li>
-            <li><a href="<?=site_url('buyer/role/add')?>">添加角色</a></li>
-            <li class="current"><a href="javascript:void(0)">编辑角色权限</a></li>    
+			<li><a href="<?=$index_url;?>">角色管理</a></li>
+			<li><a href="<?=$add_url;?>">添加角色</a></li>
+            <li class="current"><a href="javascript:void(0)">编辑角色菜单权限</a></li>
         </ul>
     </div>
     <div class="table_full">
@@ -30,7 +30,8 @@
 	    <div class="btn_wrap">
 	        <div class="btn_wrap_pd">
 				<input type="hidden" name="role_id" value="<?=$role_id;?>" />
-				<input type="hidden" name="menu_id" />
+				<input type="hidden" name="menu_id"/>
+				<input type="hidden" name="type" value="1" />
 	            <button id="submit" type="submit" class="btn btn_submit J_ajax_submit_btn">提交</button>
 	        </div>
 	    </div>

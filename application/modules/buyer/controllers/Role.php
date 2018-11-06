@@ -119,7 +119,7 @@ class Buyer_Role_module extends CI_Module{
         //菜单数据
         $result = $this->Menu_model->get_list('pingtai=2 AND status=1');
         //获取此角色的权限
-        $priv_data = $this->Adminrole_model->get_access_list('role_id='.$role_id);
+        $priv_data = $this->Adminrole_model->get_access_list('role_id='.$role_id.' AND type=1');
         $access_arr=[];
         if ($priv_data){
             foreach ($priv_data as $key=>$val){
@@ -142,7 +142,48 @@ class Buyer_Role_module extends CI_Module{
         $data['json'] = json_encode($json);
         $data['role_id'] = $role_id;
         $data['form_post'] = site_url('buyer/role/save_authority');
+        $data['index_url'] = site_url('buyer/role/index');
+        $data['add_url'] = site_url('buyer/role/add');
         $this->load->view('buyer/adminrole_authority',$data);
+    }
+
+    /**
+     * 角色授权事件级权限
+     */
+    public function set_action_authority(){
+        $role_id = $this->input->get('id');
+        if(empty($role_id)){
+            $this->error('需要授权的角色不存在!',site_url('buyer/role/index'),1);
+        }
+        //菜单数据
+        $result = $this->Menu_model->get_action_list('pingtai=2 AND status=1');
+        //获取此角色的权限
+        $priv_data = $this->Adminrole_model->get_access_list('role_id='.$role_id.' AND type=0');
+        $access_arr=[];
+        if ($priv_data){
+            foreach ($priv_data as $key=>$val){
+                $access_arr[]=$val['app'].'/'.$val['controller'].'/'.$val['action'];
+            }
+        }
+//        p($access_arr);
+        foreach ($result as $rs) {
+            $url = $rs['app'].'/'.$rs['controller'].'/'.$rs['action'];
+            $data = [
+                'id' => $rs['id'],
+                'parent_id' => $rs['parent_id'],
+                'name' => $rs['name'],
+                'checked' => (in_array($url,$access_arr)) ? true : false,//判断此菜单是否已授权
+                'open' => true,
+            ];
+            $json[] = $data;
+        }
+
+        $data['json'] = json_encode($json);
+        $data['role_id'] = $role_id;
+        $data['form_post'] = site_url('buyer/role/save_authority');
+        $data['index_url'] = site_url('buyer/role/index');
+        $data['add_url'] = site_url('buyer/role/add');
+        $this->load->view('buyer/adminrole_action_authority',$data);
     }
 
     /**
@@ -151,13 +192,19 @@ class Buyer_Role_module extends CI_Module{
     public function save_authority(){
         $arg_post = $this->input->post();
         $role_id = $arg_post['role_id'];
+        $type = $arg_post['type'];
         if(empty($arg_post['menu_id'])){
             $this->error('请至少选择一个权限！','',true);
         }
         $menuidAll = explode(',', $arg_post['menu_id']);
         if (is_array($menuidAll) && count($menuidAll) > 0) {
             //菜单数据
-            $menu_info = $this->Menu_model->get_list(['pingtai'=>2]);
+            if($type == 1){
+                $menu_info = $this->Menu_model->get_list(['pingtai'=>2]);
+            }else{
+                $menu_info = $this->Menu_model->get_action_list(['pingtai'=>2]);
+            }
+
             $menu_info = array_column($menu_info,null,'id');
             $addauthorize = [];
             //检测数据合法性
@@ -172,11 +219,12 @@ class Buyer_Role_module extends CI_Module{
                 ];
                 $info['role_id'] = $role_id;
                 $info['sid'] = 100002;
+                $info['type'] = $type;
                 $addauthorize[] = $info;
             }
 
             //添加新权限
-            $res = $this->Adminrole_model->add_role_access($role_id,$addauthorize);
+            $res = $this->Adminrole_model->add_role_access($role_id,$addauthorize,$type);
             if($res){
                 $this->success('授权成功！',site_url('buyer/role/index'),true);
             }else{
