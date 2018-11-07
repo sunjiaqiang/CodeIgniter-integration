@@ -2,7 +2,7 @@
 <html>
 <head>
 <base href="<?=site_url('');?>">
-<title>增加线路</title>
+<title>添加/编辑用户</title>
 <?php $this->load->module('admin/index/page_header'); ?>
 <link rel="stylesheet" href="<?= STATIC_PATH; ?>b2b_index/css/buyer_style.css">
 <link rel="stylesheet" href="<?= STATIC_PATH; ?>lib/layui-v2.1.5/css/layui.css"  media="all">
@@ -104,7 +104,8 @@
     <div class="content-wrap">
       <div class="choose-tab"><a class="item cur">用户管理</a></div>
       <div class="admin-wrap">
-        <form action="" method="post" class="formvalidate">
+        <form action="<?=$save_url;?>" method="post" class="formvalidate">
+          <input type="hidden" name="save_url" value="<?=$save_url;?>">
           <table class="table-v1 table-default-skin mt10">
             <tbody>
               <tr>

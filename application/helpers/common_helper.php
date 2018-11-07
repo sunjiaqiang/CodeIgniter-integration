@@ -235,6 +235,24 @@ if(!function_exists('check_wap'))
         }
     }
 }
+/**
+ * 检查是否有操作相应菜单的权限
+ */
+if ( ! function_exists('check_auth')){
+    function check_auth($auth_arr){
+        if ( ! is_array($auth_arr)) return false;
+        $CI = & get_instance();
+        $_ACCESS_LIST = $CI->session->userdata('_ACCESS_LIST');//用户登录时保存在session中的权限
+        $_ACTION_ACCESS_LIST = $CI->session->userdata('_ACTION_ACCESS_LIST');//用户登录时保存在session中的权限
+        $_ACTION_ACCESS_LIST = explode(',',$_ACTION_ACCESS_LIST);
+        $arr = [];
+        foreach ($auth_arr as $key=>$val){
+            $arr[$key] = (in_array($val,$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : 0;
+        }
+        return $arr;
+    }
+}
+
 if (!function_exists('p')) {
     /**
      * [p 传递数据以易于阅读的样式格式化后输出]

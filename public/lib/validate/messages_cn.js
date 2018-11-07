@@ -220,11 +220,27 @@ $(function() {
 			    dataType: 'json',
 				type:'post',
                 beforeSubmit:function(){
-                    if ( ! check_url.check_auth('buyer/user/edit')){
+			        var save_url = $('form').find('input[name=save_url]').val();
+			        console.log(save_url);
+
+                    var host = window.location.protocol+'//'+window.location.host;
+                    var new_url=save_url.replace(host,'');
+                    if (new_url.indexOf('index.php') > -1){
+                        new_url = new_url.replace('/index.php/','');
+                    }
+
+                    if (new_url.indexOf('?') > -1){
+                        var len = new_url.indexOf('?');
+                        var suffix = new_url.substring(len);
+                        new_url = new_url.replace(suffix,'');
+                    }
+                    //权限判断
+                    if ( ! check_url.check_auth(new_url)) {
                         return false;
                     }else {
                         $('form').find('.btn_submit').attr("disabled", true).removeClass('btn_submit ').addClass('btn_disabled');
                     }
+
                 },
                 success: function (data) {
 		            if(data.status==true){

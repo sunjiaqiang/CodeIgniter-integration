@@ -21,6 +21,15 @@ class Buyer_Role_module extends CI_Module{
      * 角色列表
      */
     public function index(){
+        $auth_url = [
+            'is_add'=>'buyer/role/add',
+            'is_edit'=>'buyer/role/edit',
+            'is_menu_authority'=>'buyer/role/set_authority',
+            'is_action_authority'=>'buyer/role/set_action_authority',
+            'is_del'=>'buyer/role/ajax_remove'
+        ];
+        $auth_arr = check_auth($auth_url);
+
         $where = "sid=100002";
         $page_config['per_page']=20;   //每页条数
         $page_config['num_links']=2;//当前页前后链接数量
@@ -31,6 +40,16 @@ class Buyer_Role_module extends CI_Module{
         $page_config['total_rows'] = $this->Adminrole_model->get_count($where);
         $this->load->library('Mypage',$page_config);
         $result = $this->Adminrole_model->get_list($page_config['per_page'],$page_config['cur_page'],$where);
+
+        if ($auth_arr){
+            foreach ($auth_arr as $key=>$val){
+                $data[$key] = $val;
+            }
+        }
+
+        $data['auth_count'] = count(array_filter($auth_arr));
+        $data['add_url'] = site_url('buyer/role/add');
+        $data['ajax_status_url'] = site_url('buyer/role/ajax_status');
         $data['list'] = $result;
         $this->load->view('buyer/adminrole_index',$data);
     }

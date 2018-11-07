@@ -25,6 +25,7 @@
       </form>
       <div class="table_full">
         <form class="formvalidate" action="<?=$form_post;?>" method="post">
+          <input type="hidden" name="save_url" value="<?=$form_post;?>">
           <div class="table_full">
             <table width="100%">
               <col class="th" />

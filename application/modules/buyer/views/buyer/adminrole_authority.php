@@ -23,6 +23,7 @@
     </div>
     <div class="table_full">
 	    <form class="formvalidate" action="<?=$form_post;?>" method="post">
+            <input type="hidden" name="save_url" value="<?=$form_post;?>">
 <!--	    <div class="h_a">编辑角色权限</div>-->
 	    <div class="table_full">
             <ul id="treeDemo" class="ztree"></ul>

@@ -12,6 +12,16 @@ $(document).ready(function(){
     //切换
     $('.pointer').on('click', function() {
         var url = $(this).closest('table').attr("data-uri");
+        var host = window.location.protocol+'//'+window.location.host;
+        var new_url=url.replace(host,'');
+        if (new_url.indexOf('index.php') > -1){
+            new_url = new_url.replace('/index.php/','');
+        }
+
+        if (!check_url.check_auth(new_url)){
+            return false;
+        }
+
         var img    = this,
             s_val  = ($(img).attr('data-value'))== 0 ? 1 : 0,
             s_name = $(img).attr('data-field'),
@@ -85,10 +95,26 @@ function initOperat(){
 function doAjaxDel(){
     $(".doDel").click(function(){
         var uri = $(this).attr("data-uri");
-        var that = this;
-        if ( ! check_url.check_auth('buyer/user/edit')) {
+
+        console.log(uri.indexOf('?'));
+
+        var host = window.location.protocol+'//'+window.location.host;
+        var new_url=uri.replace(host,'');
+        if (new_url.indexOf('index.php') > -1){
+            new_url = new_url.replace('/index.php/','');
+        }
+
+        if (new_url.indexOf('?') > -1){
+            var len = new_url.indexOf('?');
+            var suffix = new_url.substring(len);
+            new_url = new_url.replace(suffix,'');
+        }
+
+        if ( ! check_url.check_auth(new_url)) {
             return false;
         }
+
+        var that = this;
         $.dialog.confirm("你确认删除操作吗？删除后无法恢复！", function () {
             $.ajax({
                 url:uri,
@@ -125,7 +151,8 @@ var check_url={
             rt = JSON.parse(data);
         });
         if (rt.status == -1){
-            alert(rt.msg);
+            $.dialog.tips(rt.msg);
+            // alert(rt.msg);
             return false;
         }else{
             return true;

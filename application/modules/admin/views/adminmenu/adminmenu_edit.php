@@ -16,6 +16,7 @@
   </div>
   <div class="table_full">
     <form class="formvalidate" action="<?=$form_post;?>" method="post">
+        <input type="hidden" name="save_url" value="<?=$form_post;?>">
       <div class="h_a">编辑菜单</div>
       <div class="table_full">
         <table width="100%">

@@ -76,6 +76,7 @@ class Admin_Adminrole_model extends CI_Model{
             $row['remove_url'] = site_url('buyer/role/ajax_remove?id='.$row['id']);
             $row['edit_url'] = site_url('buyer/role/edit?id='.$row['id']);
             $row['author_url'] = site_url('buyer/role/set_authority?id='.$row['id']);
+            $row['set_action_url'] = site_url('buyer/role/set_action_authority?id='.$row['id']);
             $data[] = $row;
         }
         return $data;

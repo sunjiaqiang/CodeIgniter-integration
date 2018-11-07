@@ -20,6 +20,12 @@ class Buyer_User_module extends CI_Module{
      * 用户列表
      */
     public function index(){
+        $auth_url = [
+            'is_add'=>'buyer/user/edit',
+            'is_edit'=>'buyer/user/edit',
+            'is_del'=>'buyer/user/ajax_remove'
+        ];
+        $auth_arr = check_auth($auth_url);
         $table_user = 'cs_admin_user';
         $where = "$table_user.sid=100002";
         $page_config['per_page']=10;   //每页条数
@@ -32,9 +38,15 @@ class Buyer_User_module extends CI_Module{
         $this->load->library('Mypage',$page_config);
         $result = $this->Adminuser_model->get_list($page_config['per_page'],$page_config['cur_page'],$where);
         $role_list = $this->Adminrole_model->get_usable_list();
+        if ($auth_arr){
+            foreach ($auth_arr as $key=>$val){
+                $data[$key] = $val;
+            }
+        }
         $data['list'] = $result;
         $data['role_list'] = $role_list;
-        $data['index_url'] = site_url('buyer/user');
+        $data['index_url'] = site_url('buyer/user/index');
+        $data['add_url'] = site_url('buyer/user/edit');
         $data["title"] = '用户管理';
         $this->load->view('buyer/user',$data);
     }
@@ -43,51 +55,6 @@ class Buyer_User_module extends CI_Module{
      * 增加|修改用户
      */
     public function edit(){
-        if(strtolower($_SERVER['REQUEST_METHOD']) == 'post')
-        {
-            $data = $this->input->post('Form');
-            $id = $this->input->post('id');
-            if ($id){
-                //修改
-                $adminuser = array(
-                    'realname' => $data['realname'],
-                    'email' => $data['email'],
-                    'is_open' => $data['is_open'],
-                    'role_id' => $data['role_id'],
-                    'sid' => 100002,
-                    'avatar'=>$data['avatar'],
-                    'qq'=>$data['qq'],
-                    'gender'=>$data['gender']
-                );
-                if ($data['password']){
-                    $adminuser['password'] = md5($data['password']);
-                }
-                $result = $this->Adminuser_model->edit_row(['id'=>$id],$adminuser);
-            }else{
-                //新增
-                $adminuser = array(
-                    'name' => $data['name'],
-                    'realname' => $data['realname'],
-                    'email' => $data['email'],
-                    'password' => md5($data['password']),
-                    'is_open' => $data['is_open'],
-                    'role_id' => $data['role_id'],
-                    'sid' => 100002,
-                    'avatar'=>$data['avatar'],
-                    'qq'=>$data['qq'],
-                    'gender'=>$data['gender']
-                );
-                $adminuser['add_time'] = date('Y-m-d H:i:s',time());
-                $result = $this->Adminuser_model->add_row($adminuser);
-            }
-
-            $returl =  site_url('buyer/user');
-            if ($result){
-                $this->success('保存成功！', $returl, true);
-            }else{
-                $this->error("保存失败！",$returl,true);
-            }
-        }
 //        $auth_arr=[
 //            'buyer/user/edit2',
 //            'buyer/user/save'
@@ -105,7 +72,56 @@ class Buyer_User_module extends CI_Module{
         }
         $role_list = $this->Adminrole_model->get_usable_list();
         $arr['role_list'] = $role_list;
+        $arr['save_url'] = site_url('buyer/user/user_save');
         $this->load->view('buyer/user_edit',$arr);
+    }
+
+    /**
+     * 保存用户数据
+     */
+    public function user_save(){
+        $data = $this->input->post('Form');
+        $id = $this->input->post('id');
+        if ($id){
+            //修改
+            $adminuser = array(
+                'realname' => $data['realname'],
+                'email' => $data['email'],
+                'is_open' => $data['is_open'],
+                'role_id' => $data['role_id'],
+                'sid' => 100002,
+                'avatar'=>$data['avatar'],
+                'qq'=>$data['qq'],
+                'gender'=>$data['gender']
+            );
+            if ($data['password']){
+                $adminuser['password'] = md5($data['password']);
+            }
+            $result = $this->Adminuser_model->edit_row(['id'=>$id],$adminuser);
+        }else{
+            //新增
+            $adminuser = array(
+                'name' => $data['name'],
+                'realname' => $data['realname'],
+                'email' => $data['email'],
+                'password' => md5($data['password']),
+                'is_open' => $data['is_open'],
+                'role_id' => $data['role_id'],
+                'sid' => 100002,
+                'avatar'=>$data['avatar'],
+                'qq'=>$data['qq'],
+                'gender'=>$data['gender']
+            );
+            $adminuser['add_time'] = date('Y-m-d H:i:s',time());
+            $result = $this->Adminuser_model->add_row($adminuser);
+        }
+
+        $returl =  site_url('buyer/user');
+        if ($result){
+            $this->success('保存成功！', $returl, true);
+        }else{
+            $this->error("保存失败！",$returl,true);
+        }
     }
 
     /**

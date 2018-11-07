@@ -82,9 +82,13 @@
 <body>
 <div class="main mt20 clearfix">
   <div class="container">
-    <div class="" style="color: #4d4d4d;margin-bottom: 20px;"> 系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?=site_url('buyer/user/index'); ?>">用户管理</a></span> </div>
+    <div class="" style="color: #4d4d4d;margin-bottom: 20px;"> 系统管理 <span>&nbsp;&gt;&nbsp;</span><span><a style="color: #34a6df;" href="<?=$index_url; ?>">用户管理</a></span> </div>
     <div class="content-wrap">
-      <div class="choose-tab"> <a class="item cur">用户管理</a><a href="<?=site_url('buyer/user/edit')?>" class="green-btn fr action-add-user accesscheck" data-accessurl="10902">创建用户</a> </div>
+      <div class="choose-tab"> <a class="item cur">用户管理</a>
+          <?php if ($is_add):?>
+          <a href="<?=$add_url;?>" class="green-btn fr action-add-user accesscheck" data-accessurl="10902">创建用户</a>
+          <?php endif;?>
+      </div>
       <div class="admin-wrap">
         <table class="table-v1 table-default-skin mt10">
           <tbody>
@@ -103,9 +107,14 @@
               <td><?=$val['is_open']?  '正常' : '<span style="color:orangered;">停止</span>';?></td>
               <td><?=$val['role_name']?></td>
               <td><?=$val['add_time']?></td>
-              <td><a href="<?=site_url('buyer/user/edit?id='.$val['id'])?>" class="button-small button-bg-lightblue button-font-black edit-pay-info accesscheck">编辑</a>
+              <td>
+                  <?php if ($is_edit):?>
+                  <a href="<?=site_url('buyer/user/edit?id='.$val['id'])?>" class="button-small button-bg-lightblue button-font-black edit-pay-info accesscheck">编辑</a>
+                  <?php endif;?>
                 <?php if ( ! $val['is_founder']):?>
+                <?php //if($is_del):?>
                 <a  class="button-small button-bg-lightorange button-font-orange accesscheck doDel" data-uri="<?=site_url('buyer/user/ajax_remove?id='.$val['id'])?>">删除</a>
+                <?php //endif;?>
                 <?php endif;?>
               </td>
             </tr>

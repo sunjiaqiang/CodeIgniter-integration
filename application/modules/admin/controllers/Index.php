@@ -107,10 +107,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                     $access_list = [];
                     foreach ($access as $key=>$val){
                         switch($val['type']){
-                            case 1:
+                            case 1://菜单权限，用于后台的菜单展示
                                 $access_list[] = $val['app'].'/'.$val['controller'].'/'.$val['action'];
                                 break;
-                            case 0:
+                            case 0://操作权限，用于后台的具体操作方法(如:后台人员的编辑操作、删除操作、修改操作等具体的操作方法，如果没有相应权限则隐藏对应按钮或提示没有权限)
                                 $action_access_list[] = $val['app'].'/'.$val['controller'].'/'.$val['action'];
                         }
                     }
@@ -172,12 +172,19 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          * 后台权限菜单管理
          */
         public function adminmenu(){
-            $_ACCESS_LIST = $this->session->userdata('_ACCESS_LIST');//用户登录时保存在session中的权限
-            $_ACTION_ACCESS_LIST = $this->session->userdata('_ACTION_ACCESS_LIST');//用户登录时保存在session中的权限
-            $_ACTION_ACCESS_LIST = explode(',',$_ACTION_ACCESS_LIST);
-            $is_add = (in_array('admin/index/adminmenu_add',$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : 0;
-            $is_edit = (in_array('admin/index/adminmenu_edit',$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : 0;
-            $is_del = (in_array('admin/index/ajax_remove_adminmenu',$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : 0;
+//            $_ACCESS_LIST = $this->session->userdata('_ACCESS_LIST');//用户登录时保存在session中的权限
+//            $_ACTION_ACCESS_LIST = $this->session->userdata('_ACTION_ACCESS_LIST');//用户登录时保存在session中的权限
+//            $_ACTION_ACCESS_LIST = explode(',',$_ACTION_ACCESS_LIST);
+//            $is_add = (in_array('admin/index/adminmenu_add',$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : 0;
+//            $is_edit = (in_array('admin/index/adminmenu_edit',$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : 0;
+//            $is_del = (in_array('admin/index/ajax_remove_adminmenu',$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : 0;
+            $auth_url = [
+                'is_add'=>'admin/index/adminmenu_add',
+                'is_edit'=>'admin/index/adminmenu_edit',
+                'is_del'=>'admin/index/ajax_remove_adminmenu'
+            ];
+            $auth_arr = check_auth($auth_url);
+
             $this->load->library('mytreeclass');
             $list = $this->Menu_model->get_list(['pingtai'=>2,'ismenu'=>1]);
             $res = [];
@@ -201,12 +208,17 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                     }
                 }
             }
+            if ($auth_arr){
+                foreach ($auth_arr as $key=>$val){
+                    $data[$key] = $val;
+                }
+            }
             $data['index_url'] = site_url('admin/index/adminmenu');
             $data['add_url'] = site_url('admin/index/adminmenu_add');
             $data['ajax_status_url'] = site_url('admin/index/ajax_menu_status');
-            $data['is_add'] = $is_add;
-            $data['is_edit'] = $is_edit;
-            $data['is_del'] = $is_del;
+//            $data['is_add'] = $is_add;
+//            $data['is_edit'] = $is_edit;
+//            $data['is_del'] = $is_del;
             $data['res'] = $res;//print_r($data['res']);
             $this->load->view('adminmenu/adminmenu_index',$data);
         }
@@ -216,6 +228,12 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          */
         public function actionmenu(){
 //            p('事件菜单');
+            $auth_url = [
+                'is_add'=>'admin/index/actionmenu_add',
+                'is_edit'=>'admin/index/actionmenu_edit',
+                'is_del'=>'admin/index/ajax_remove_actionmenu'
+            ];
+            $auth_arr = check_auth($auth_url);
             $this->load->library('mytreeclass');
             $list = $this->Menu_model->get_action_list(['pingtai'=>2]);
             $res = [];
@@ -241,6 +259,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                             }
                         }
                     }
+                }
+            }
+            if ($auth_arr){
+                foreach ($auth_arr as $key=>$val){
+                    $data[$key] = $val;
                 }
             }
             $data['index_url'] = site_url('admin/index/actionmenu');
@@ -314,7 +337,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $data['select_categorys'] = $select_categorys;
             $data['row'] = $row;
             //数据保存URL
-            $data['form_post'] = site_url('admin/index/actionmenu_save');
+            $data['form_post'] = site_url('admin/index/adminmenu_save');
             $this->load->view('adminmenu/adminmenu_edit',$data);
         }
         /**
@@ -467,9 +490,13 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          */
         public function check_auth(){
             $url = $this->input->post('url');
+            $_ACCESS_LIST = $this->session->userdata('_ACCESS_LIST');//用户登录时保存在session中的权限
+            $_ACTION_ACCESS_LIST = $this->session->userdata('_ACTION_ACCESS_LIST');//用户登录时保存在session中的权限
+            $_ACTION_ACCESS_LIST = explode(',',$_ACTION_ACCESS_LIST);
+            $is_authed = (in_array($url,$_ACTION_ACCESS_LIST) || $_ACCESS_LIST == 'ALL') ? 1 : -1;
             $arr=[
-                'status'=>1,
-                'msg'=>"有权限"
+                'status'=>$is_authed,
+                'msg'=>($is_authed == 1) ? 'authed' :'没有权限'
             ];
             echo json_encode($arr);
         }
