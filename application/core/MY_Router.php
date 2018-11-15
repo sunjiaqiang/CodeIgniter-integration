@@ -196,7 +196,38 @@ class MY_Router extends CI_Router {
 		unset($segments[0]);
 		$this->uri->rsegments = $segments;
 	}
+    /**
+     * 因为改造框架为hmvc模式，所以原有的访问routes配置文件中的default_controller方法以不能用
+     * 这里重写Route中的访问默认控制器的方法，来实现hmvc模式的访问
+     * Set default controller
+     *
+     * @return	void
+     */
+    protected function _set_default_controller()
+    {
+        if (empty($this->default_controller))
+        {
+            show_error('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
+        }
 
+        // Is the method being specified?
+        if (strpos($this->default_controller, '/') !== FALSE)
+        {
+            $x = explode('/', $this->default_controller);
+
+//			$this->set_class($x[0]);
+//			$this->set_method($x[1]);
+            $this->_set_request($x);
+        }
+        else
+        {
+//			$this->set_class($this->default_controller);
+//			$this->set_method('index');
+            $this->_set_request(array($this->default_controller, 'index'));
+        }
+
+        log_message('debug', 'No URI present. Default controller set.');
+    }
 	// --------------------------------------------------------------------
 
 	/**
