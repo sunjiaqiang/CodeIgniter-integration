@@ -46,6 +46,19 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $this->myfile->upload();
         }
         /**
+         * 上传图片
+         */
+        public function upload_markdown_pic(){
+            $allow_ext = ['jpg','png','gif','jpeg'];//允许上传的类型
+            $allow_max_size = 5*1024*1024;//5m=5242880 b 允许上传的大小
+            $save_path = './public/uploads/';//后面必须加/
+            $this->load->library('myfile');
+            $this->myfile->allowExts = $allow_ext;
+            $this->myfile->savePath = $save_path;
+            $this->myfile->maxSize = $allow_max_size;
+            $this->myfile->upload_markdown();
+        }
+        /**
          * 删除图片
          * @param $path 图片路径
          */
