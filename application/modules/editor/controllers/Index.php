@@ -18,6 +18,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         public function wangeditor(){
             $this->load->view('wangeditor');
         }
+
+        /**
+         * markwodn编辑器
+         */
+        public function markdown(){
+            $this->load->view('markdown');
+        }
+
         /**
          * wangEditor上传图片
          */

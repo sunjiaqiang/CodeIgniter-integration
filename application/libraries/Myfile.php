@@ -53,6 +53,43 @@
         }
 
         /**
+         * 上传图片方法
+         * @param $return_type 1返回json格式，2返回数组格式
+         * @param $resutn_name 返回的文件名
+         */
+        public function upload_markdown($return_type = 1,$resut_name='pic'){
+            $this->createFolder($this->savePath);//创建上传文件夹
+            $file = $_FILES['editormd-image-file'];
+            $file['extension'] = $this->getExt($file['name']);
+            $file['save_path'] = $this->savePath;
+            $file['save_name'] = date('YmdHis').rand(1000,9999).'.'.$file['extension'];
+            if( ! $this->check($file)){
+                $arr['status'] = -1;
+                $arr['error'] = $this->error;
+                echo json_encode($arr);
+                exit;
+            }
+
+            if( ! $this->save_file($file)){
+                $arr['status'] = -1;
+                $arr['error'] = $this->error;
+                echo json_encode($arr);
+                exit;
+            }
+            $arr['error'] = 0;
+            $arr['success'] = 1;
+            $arr['url'] = $file['save_path'].$file['save_name'];
+            $arr['message'] = "上传成功";
+            switch ($return_type){
+                case 1:
+                    echo json_encode($arr);
+                case 2:
+                    return $arr;
+            }
+
+        }
+
+        /**
          * 上传文件
          * @param $file
          */
