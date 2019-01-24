@@ -157,13 +157,24 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
                 /* Here there will be some code where you create $spreadsheet */
 
-                // redirect output to client browser
-                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                header('Content-Disposition: attachment;filename="myfilep.xlsx"');
-                header('Cache-Control: max-age=0');
+
 
                 $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-                $writer->save('php://output');
+
+                if($this->input->get_post('type') == 1){
+                    //保存到本地文件
+                    $savePath = APPPATH.'/cache/';
+                    $fileName = uniqid(time(),true);
+                    $_fileName = iconv("utf-8", "gb2312", $fileName);   //转码
+                    $_savePath = $savePath.$fileName.'.xlsx';
+                    $writer->save($_savePath);
+                }else{
+                    // redirect output to client browser
+                    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    header('Content-Disposition: attachment;filename="myfilep.xlsx"');
+                    header('Cache-Control: max-age=0');
+                    $writer->save('php://output');
+                }
             }
 
             $total = $this->Article_model->get_tourist_count();
